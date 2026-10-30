@@ -1,0 +1,1432 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>パチンコスペックラボ α23.5 iOS</title>
+<meta name="theme-color" content="#0d1422">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="スペックラボ">
+<meta name="description" content="パチンコスペックラボ α23.5｜理論値・賞球反映シミュレーション・逆算">
+<link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+<link rel="manifest" href="./manifest.webmanifest"><style>
+:root{font-family:system-ui,-apple-system,'Noto Sans JP',sans-serif;color:#e8eef7;background:#0d1422}*{box-sizing:border-box}body{margin:0}.wrap{max-width:1320px;margin:auto;padding:24px}.top{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center}.muted,small{color:#a3b2c6}.tag{color:#91c2ff;border:1px solid #345276;border-radius:20px;padding:5px 12px;font-size:12px}h1{font-size:27px;margin:4px 0}h2{font-size:18px;margin:0 0 15px}h3{font-size:15px;margin:10px 0}p{line-height:1.6}.tabs{display:flex;gap:7px;flex-wrap:wrap;margin:20px 0}.tabs button{background:#1a283c}.tabs button.active{background:#3168ad}.panel{background:#162338;border:1px solid #32445e;border-radius:14px;padding:20px;margin:14px 0}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.cols{display:grid;grid-template-columns:1.1fr .9fr;gap:14px}label{display:block;color:#b5c9df;font-size:13px;margin-bottom:5px}input,select,textarea{background:#0d192a;color:#ecf4ff;border:1px solid #455873;border-radius:8px;padding:9px;width:100%;font:inherit}input[type=checkbox]{width:auto}button{background:#2865ae;color:white;border:1px solid #4572a9;padding:9px 13px;border-radius:8px;cursor:pointer;font:inherit}button:hover{filter:brightness(1.13)}button.secondary{background:#25374c}button.danger{background:#762f44;border-color:#954a5d}button:disabled{opacity:.45;cursor:not-allowed}.actions{display:flex;gap:8px;flex-wrap:wrap}.row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:10px 0}.metric{background:#101d2f;border-radius:10px;padding:17px}.metric strong{display:block;font-size:26px;color:#b5dbff;margin-top:8px}table{width:100%;border-collapse:collapse;font-size:13px}td,th{padding:9px;border-bottom:1px solid #344760;text-align:left}th{color:#b9d4f0}td input,td select{min-width:90px}td input{max-width:150px}.scroll{overflow-x:auto}.warning{background:#3e2a22;border:1px solid #8d5c37;color:#ffddbb;padding:12px;border-radius:8px;margin:10px 0;white-space:pre-line}.ok{color:#8eebc4}.hidden{display:none!important}.note{font-size:12px;color:#a5b6ca}.chart{width:100%;height:330px;background:#101d2f;border-radius:10px}.hit-breakdown{display:block;color:#9cb0ca;font-size:11px;white-space:nowrap;margin-top:4px}.initial-dest{display:block;color:#a0b8d5;font-size:11px;margin-top:4px}.sim-mode-options{display:flex;gap:22px;flex-wrap:wrap;margin:10px 0 15px}.sim-mode-options label{display:flex;align-items:center;gap:7px;cursor:pointer;font-size:14px}.sim-run-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:14px 0 6px}.sim-run-actions #runSim{min-width:240px}.sim-run-actions button{min-height:43px}.metric .fraction{font-size:14px;color:#a9c4e2;margin-top:5px;font-variant-numeric:tabular-nums}.preset{background:#273c53}.sim-mode-options input{width:auto}@media(max-width:560px){.sim-run-actions #runSim{min-width:0;flex:1}}.badge{color:#c3e2ff;font-size:12px;border-radius:6px;background:#254769;padding:3px 8px;margin-left:8px}@media(max-width:800px){.grid,.cols{grid-template-columns:1fr}.row{grid-template-columns:repeat(2,1fr)}.wrap{padding:12px}.panel{padding:13px}}
+.hall-graph-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:22px 0 9px}.hall-graph-head strong{font-size:17px;color:#eff8ff}.hall-graph-head .note{margin-left:10px}.chart-wrap{background:#0b1727;border:1px solid #35516c;border-radius:12px;padding:10px 10px 4px}.chart-wrap .chart{display:block;height:380px;background:#0b1727;border-radius:6px}.chart-hover{padding:6px 10px;min-height:30px;text-align:right}.metric .fraction{font-variant-numeric:tabular-nums}@media(max-width:800px){.chart-wrap .chart{height:320px}}.stat-detail{font-size:11px;color:#8fa8c5;margin-top:6px;line-height:1.45}.distribution-chart{display:grid;gap:10px;margin-top:15px}.distribution-row{display:grid;grid-template-columns:125px minmax(0,1fr) 145px;align-items:center;gap:10px;font-size:13px}.distribution-track{height:18px;border-radius:5px;background:#0b1727;overflow:hidden}.distribution-bar{height:100%;background:linear-gradient(90deg,#2676bf,#76c9f3);min-width:0;border-radius:4px}.distribution-value{text-align:right;font-variant-numeric:tabular-nums;color:#d7eaff}@media(max-width:600px){.distribution-row{grid-template-columns:88px minmax(0,1fr) 98px;gap:5px;font-size:11px}}.chart-wrap{box-shadow:0 8px 26px rgba(0,0,0,.12);overflow:hidden}.chart-wrap .chart{touch-action:pan-y}.chart-hover{font-variant-numeric:tabular-nums}.theory-panel{padding:24px}.theory-head h2{margin:0 0 5px}.theory-head p{margin:0 0 16px}.theory-residual{display:flex;align-items:center;gap:12px;max-width:660px;background:#102e45;border:1px solid #3b6583;border-radius:12px;padding:14px 18px;margin-bottom:10px;color:#f3f8ff;font-size:15px;cursor:pointer}.theory-residual input{width:19px;height:19px;accent-color:#3ca9ee;flex:none}.theory-residual small{color:#a5c1d9}.theory-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin:24px 0}.theory-grid .metric{min-width:0;min-height:120px;display:flex;flex-direction:column;justify-content:center;background:linear-gradient(150deg,#112b43,#102035);border:1px solid #335471;padding:16px 15px}.theory-grid .metric small{font-size:13px;color:#b6ccdd;line-height:1.45}.theory-grid .metric strong{font-size:clamp(18px,2vw,27px);color:#e0f4ff;overflow-wrap:anywhere;line-height:1.35}.theory-grid .metric:nth-child(1) strong,.theory-grid .metric:nth-child(2) strong{color:#9ee4ff}.theory-help{border-top:1px solid #334b63;padding-top:18px;line-height:1.9}@media(max-width:1100px){.theory-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:600px){.theory-panel{padding:14px}.theory-grid{gap:9px}.theory-grid .metric{min-height:104px;padding:13px 11px}.theory-grid .metric strong{font-size:21px}.theory-grid .metric small{font-size:12px}}
+
+/* α18 theory controls */
+.theory-settings{border:1px solid #35516d;background:linear-gradient(135deg,#11243a,#102039);border-radius:14px;padding:18px 20px;margin:15px 0 20px}
+.theory-settings h3{margin:0 0 10px;color:#e8f5ff}
+.theory-setting-row{display:flex;align-items:center;justify-content:space-between;gap:16px;border-top:1px solid #2d4660;padding:15px 0}
+.theory-setting-row strong{font-size:14px;color:#e6f2ff}
+.theory-hint{display:block;font-size:11.5px;line-height:1.55;color:#a5bace;margin-top:4px}
+.theory-inline-note{margin:6px 0 0}
+.theory-segment{display:flex;align-items:center;flex:none;background:#0a1625;border:1px solid #405978;border-radius:10px;padding:3px;gap:4px}
+.theory-segment label{position:relative;margin:0;cursor:pointer;min-width:68px;text-align:center}
+.theory-segment input{position:absolute;opacity:0;width:1px;height:1px}
+.theory-segment span{display:block;border-radius:7px;color:#a9bfda;padding:9px 16px;font-size:14px;font-weight:700}
+.theory-segment input:checked+span{color:#fff;background:#276db8;box-shadow:0 2px 9px rgba(23,95,185,.34)}
+.theory-segment input:focus-visible+span{outline:2px solid #b3deff;outline-offset:1px}
+.theory-check{display:flex;align-items:center;gap:9px;cursor:pointer;margin:0;white-space:nowrap;font-size:13px;color:#ebf4ff}
+.theory-check input{width:19px;height:19px;accent-color:#4aa4ed;flex:none}
+.theory-loss-input{display:flex;align-items:center;gap:9px;flex:none}.theory-loss-input input{width:95px;text-align:right;font-variant-numeric:tabular-nums}.theory-loss-input span{color:#cfdfed}
+.theory-loss-slider{width:100%;padding:0;height:22px;accent-color:#46b4f5;cursor:pointer}
+.theory-results-head{display:flex;align-items:center;justify-content:space-between;gap:10px}.theory-results-head h3{font-size:16px;margin:0}
+.theory-grid{margin:13px 0 24px}
+@media(max-width:600px){.theory-settings{padding:12px 14px}.theory-setting-row{gap:10px}.theory-segment label{min-width:52px}.theory-segment span{padding:8px 11px}.theory-setting-row strong{font-size:13px}.theory-hint{font-size:11px}.theory-check{white-space:normal;font-size:12px}}
+
+/* α21: inverse design calculators */
+.reverse-panel{padding:23px 24px}
+.reverse-panel h2{margin:0 0 6px;line-height:1.4}
+.reverse-panel .note{margin:5px 0 15px;line-height:1.65}
+.reverse-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.reverse-label{display:inline-block;flex:none;border-radius:999px;border:1px solid #4585c4;background:#194064;color:#cdeeff;font-size:11px;font-weight:700;letter-spacing:.08em;padding:5px 11px}
+.reverse-input-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:15px 18px;align-items:end}
+.reverse-actions{grid-column:1/-1;display:flex;gap:9px;flex-wrap:wrap}
+.reverse-result{background:linear-gradient(140deg,#0b2137,#0d1a2c);border:1px solid #355777;border-radius:12px;padding:17px 18px;margin-top:17px;color:#d8ebff;line-height:1.6}
+.reverse-result .reverse-key{display:block;font-size:12px;color:#abc6e2;margin-bottom:3px}
+.reverse-result strong{display:block;font-size:clamp(23px,3.1vw,32px);color:#9ee3ff;font-variant-numeric:tabular-nums;overflow-wrap:anywhere;line-height:1.4}
+.reverse-result .reverse-meta{display:block;font-size:12px;color:#a5b8ce;margin-top:4px}
+.reverse-result.reverse-error{border-color:#9e654b;color:#ffceaf;background:#32251f}
+.reverse-footnote{margin-bottom:0!important}
+.reverse-shared-note{padding:0 6px;line-height:1.75}
+@media(max-width:600px){.reverse-panel{padding:16px}.reverse-input-grid{grid-template-columns:1fr}.reverse-actions{grid-column:1}.reverse-actions button{width:100%}.reverse-result{padding:14px}.reverse-header{gap:6px}.reverse-label{padding:4px 8px}}
+
+/* Reverse-tab base efficiency prototype; jackpot payouts and state model stay as in α22. */
+.border-proto{margin:13px 0 24px;padding:20px;border:1px solid #47769a;border-radius:14px;background:linear-gradient(115deg,#112f46,#12243a)}
+.border-proto-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.border-proto h3{margin:0;color:#e9f5ff;font-size:16px}
+.border-proto-tag{padding:5px 10px;border:1px solid #5188ad;border-radius:999px;font-size:11px;color:#bceaff;background:#144261}
+.border-proto-desc{margin:9px 0 17px;line-height:1.75;font-size:12px;color:#bed2e6}
+.border-proto-inputs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;margin-bottom:16px}
+.border-proto-inputs label{margin-bottom:6px}
+.border-proto-inputs input{width:100%}
+.border-proto-result{border-top:1px solid #34536d;padding-top:16px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:16px}
+.border-proto-result .border-proto-large{display:block;font-weight:750;line-height:1.3;font-size:clamp(24px,2.6vw,34px);font-variant-numeric:tabular-nums;color:#a9edfd;margin:5px 0}
+.border-proto-result .border-proto-unit{font-size:13px;color:#c0d6ea;font-weight:400}
+.border-proto-result small{font-size:11px;color:#aec4dc;line-height:1.6}
+.border-proto-breakdown{background:#0c2034;border-radius:10px;padding:14px 16px;font-size:13px;color:#dcecff;line-height:1.9}
+.border-proto-breakdown div{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.border-proto-breakdown b{font-variant-numeric:tabular-nums;white-space:nowrap}
+.border-proto-bottom{margin:13px 0 0;color:#a5c2dc;font-size:11px;line-height:1.8}
+.border-proto-warning{padding:12px;border:1px solid #ae7745;border-radius:8px;color:#ffd1a3}
+@media(max-width:700px){.border-proto{padding:14px}.border-proto-inputs{grid-template-columns:1fr}.border-proto-result{grid-template-columns:1fr}}
+
+/* 通常時賞球を反映したシミュレーション */
+.sim-cost-mode{display:flex;gap:12px;flex-wrap:wrap;margin:12px 0}
+.sim-cost-mode label{display:flex;align-items:center;gap:7px;padding:10px 12px;background:#182f4c;border:1px solid #3a5777;border-radius:10px;cursor:pointer;font-size:14px}
+.sim-cost-mode input{width:auto;accent-color:#77b5ff}
+.sim-prize-panel{background:#101e31;border:1px solid #35587c;border-radius:12px;padding:16px;margin-top:12px}
+.sim-prize-panel .grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+.sim-preview{margin-top:12px;background:#0b1729;border:1px solid #24466a;border-radius:10px;padding:14px;line-height:1.7}
+.sim-preview strong{font-size:19px;color:#aee2ff;font-variant-numeric:tabular-nums}
+.sim-preview .comparison{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.sim-preview .comparison>div{background:#172b43;border:1px solid #2c4b6e;border-radius:8px;padding:10px}
+.sim-preview .selected{outline:2px solid #6aa7ef}
+.sim-preview .warning{font-size:13px}
+.sim-quick-choice{margin:10px 0 2px;display:flex;gap:8px;flex-wrap:wrap}
+.sim-quick-choice button{min-height:38px}
+.sim-cost-status{font-size:13px;color:#b1cce6;margin:9px 0}
+@media(max-width:900px){.sim-prize-panel .grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.sim-prize-panel .grid,.sim-preview .comparison{grid-template-columns:1fr}.sim-prize-panel{padding:11px}}
+
+.sim-border-import{margin:12px 0;padding:13px;background:#102843;border:1px solid #4773a4;border-radius:10px}
+.sim-border-import>button{min-height:42px;font-size:14px;font-weight:700}
+.sim-border-import-detail{display:flex;flex-wrap:wrap;gap:6px 16px;margin:10px 0 2px}
+.sim-border-import-detail .note{color:#b9d8f7}
+#simBorderImportStatus{margin:8px 0 0;line-height:1.5}
+#simBorderImportStatus.success{color:#a1f0c9}
+#simBorderImportStatus.error{color:#ffb3af}
+@media(max-width:540px){.sim-border-import>button{width:100%}.sim-border-import-detail{display:block}.sim-border-import-detail span{display:block}}
+.sim-border-toggle{display:flex;align-items:center;gap:10px;max-width:100%;width:fit-content;margin:0 0 10px;font-size:14px;color:#e1f4ff;font-weight:700;cursor:pointer}
+.sim-border-toggle input{width:20px;height:20px;accent-color:#4aa4ed;flex:none}
+.sim-border-import>button{margin-top:3px}
+
+/* α23.5 iOS: smartphone layout, unchanged core model */
+.mobile-tools{display:none}
+.mobile-swipe-hint{display:none}
+.mobile-only-label{display:none}
+@media (max-width:800px){
+  html{scroll-padding-top:12px;scroll-behavior:smooth}
+  html,body{width:100%;max-width:100%;overflow-x:clip}
+  body{padding:0 0 calc(100px + env(safe-area-inset-bottom,0px));-webkit-text-size-adjust:100%;line-height:1.55}
+  .wrap{padding:14px 12px 24px;width:100%;max-width:100%;min-width:0}
+  .top,.top>div,.panel,.grid,.cols,.grid>div,.cols>div,.row,.metric{min-width:0}
+  .top{align-items:flex-start;gap:10px}
+  h1{font-size:clamp(20px,5.6vw,26px);line-height:1.35;margin:7px 0 4px;letter-spacing:-.02em}
+  h2{font-size:17px;line-height:1.5}
+  h3{line-height:1.5}
+  .tag{font-size:11px}
+  .top .muted{font-size:12px;line-height:1.5}
+  .top>.actions{display:none}
+  .mobile-tools{display:block;min-width:0;width:100%;margin-top:7px}
+  .mobile-tools summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;padding:11px 14px;border:1px solid #355878;background:#172940;border-radius:12px;color:#d6eaff;font-weight:600;font-size:13px;min-height:44px}
+  .mobile-tools summary::-webkit-details-marker{display:none}
+  .mobile-tools[open] summary{border-radius:12px 12px 0 0}
+  .mobile-tools .actions{border:1px solid #355878;border-top:0;padding:10px;border-radius:0 0 12px 12px;background:#122238;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+  .mobile-tools button{min-width:0;padding:9px 4px;font-size:12px}
+  .tabs{position:fixed;z-index:100;bottom:0;left:0;right:0;margin:0;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:0;padding:5px 5px calc(7px + env(safe-area-inset-bottom,0px));background:rgba(12,25,43,.97);border-top:1px solid #35526f;box-shadow:0 -6px 30px #060d1ccc;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+  .tabs button{margin:0;border:0;border-radius:10px;background:transparent;color:#9fb6ce;padding:5px 1px 4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-width:0;min-height:53px;font-size:10px;font-weight:600;line-height:1.2}
+  .tabs button.active{background:#244e79;color:#fff}
+  .tabs .tab-desktop-label{display:none}
+  .tabs .tab-mobile-label,.tabs .nav-icon{display:block}
+  .tabs .nav-icon{font-size:18px;line-height:1.15}
+  .panel{border-radius:14px;margin:12px 0;padding:14px 12px}
+  .panel .panel{padding:14px 11px;margin:12px 0}
+  .panel .top{align-items:center;gap:8px}
+  .panel .top h2{margin:0}
+  .panel .top button{font-size:13px;padding:10px}
+  p{line-height:1.7}
+  .note{line-height:1.7;font-size:12px}
+  label{font-size:13px;margin-bottom:7px}
+  input:not([type=checkbox]):not([type=radio]):not([type=range]),select,textarea{font-size:16px;min-height:46px;border-radius:10px;padding:10px 12px;max-width:100%;width:100%}
+  button{min-height:44px;touch-action:manipulation;max-width:100%}
+  input[type=checkbox],input[type=radio]{width:20px;height:20px;flex-shrink:0;accent-color:#52aaff}
+  input[type=range]{height:28px;touch-action:pan-x}
+  .grid,.cols{grid-template-columns:minmax(0,1fr);gap:12px}
+  .row{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .metric{padding:13px 10px;border:1px solid #2d465f}
+  .metric strong{font-size:clamp(16px,4.9vw,23px);line-height:1.25;overflow-wrap:anywhere}
+  .metric small{font-size:11px;line-height:1.4;display:block;overflow-wrap:anywhere}
+  .metric .fraction{font-size:12px;overflow-wrap:anywhere}
+  .stat-detail{font-size:10px;overflow-wrap:anywhere}
+  .actions{gap:8px}
+  .actions>button{flex:1 1 130px;font-size:13px}
+  .theory-panel{padding:14px 11px}
+  .theory-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  .theory-grid .metric{min-height:115px;padding:12px 10px}
+  .theory-grid .metric strong{font-size:clamp(17px,5vw,22px);line-height:1.28}
+  .theory-grid .metric small{font-size:11.5px}
+  .theory-settings{padding:13px 11px}
+  .theory-setting-row{gap:9px;flex-wrap:wrap;align-items:center}
+  .theory-loss-row>div:first-child{flex:1 1 155px}
+  .theory-loss-input input{width:90px!important}
+  .theory-check{font-size:13px}
+  .theory-segment{margin-left:auto}
+  .theory-residual{padding:12px}
+  .theory-help{font-size:12px}
+  .sim-mode-options{display:grid;gap:8px;margin-bottom:13px}
+  .sim-mode-options label{display:flex;align-items:center;background:#162b44;border:1px solid #344e6e;padding:11px;border-radius:10px;font-size:14px;margin:0}
+  .sim-run-actions{display:grid;grid-template-columns:minmax(0,1fr) 118px;gap:8px}
+  .sim-run-actions #runSim{min-width:0;flex:none;white-space:normal;font-size:13px}
+  .sim-run-actions #randomSeed{white-space:nowrap;font-size:13px;padding:9px 4px}
+  .sim-run-actions button{min-height:52px}
+  #simPresets button{min-height:40px;flex:1 1 88px}
+  .scroll{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;scrollbar-color:#456887 #0e1b2e}
+  .mobile-swipe-hint{display:block;margin:5px 0 7px;color:#9db6d0;font-size:11px}
+  .mobile-card-table{overflow-x:visible}
+  .mobile-card-table table,.mobile-card-table tbody,.mobile-card-table tr,.mobile-card-table td{display:block;width:100%;min-width:0}
+  .mobile-card-table thead{display:none}
+  .mobile-card-table tbody{display:grid;gap:11px}
+  .mobile-card-table tr{border:1px solid #365574;background:#102036;border-radius:12px;padding:13px 12px;display:grid;gap:11px}
+  .mobile-card-table td{padding:0;border:none;min-width:0;overflow-wrap:anywhere}
+  .mobile-card-table td:before{content:attr(data-label);display:block;font-size:11px;color:#a6bfd9;font-weight:600;line-height:1.3;margin-bottom:4px}
+  .mobile-card-table td input:not([type=checkbox]),.mobile-card-table td select{max-width:100%;min-width:0;width:100%}
+  .mobile-card-table td input[type=checkbox]{width:22px;height:22px}
+  .mobile-card-table td:last-child button{width:100%}
+  .history-scroll table{min-width:770px}
+  .daily-scroll table{min-width:480px}
+  .history-scroll td,.daily-scroll td{white-space:normal}
+  .history-scroll th:first-child,.history-scroll td:first-child{position:sticky;left:0;background:#172b42;z-index:2}
+  .history-scroll th:first-child{background:#1b3350;z-index:3}
+  .chart-wrap{padding:6px 5px 2px;margin:0 -2px;border-radius:10px}
+  .chart-wrap .chart{height:280px}
+  .chart-hover{text-align:center;font-size:11px;padding:9px 3px;line-height:1.5}
+  .hall-graph-head{align-items:flex-start;margin:18px 0 9px}
+  .hall-graph-head>div{min-width:0}
+  .hall-graph-head .note{display:block;margin:3px 0 0}
+  .distribution-row{grid-template-columns:76px minmax(0,1fr) 86px;gap:4px;font-size:11px}
+  .distribution-track{height:15px}
+  .reverse-panel{padding:15px 12px}
+  .reverse-header{flex-wrap:wrap}
+  .reverse-label{font-size:10px}
+  .reverse-result strong{font-size:clamp(21px,6vw,30px)}
+  .reverse-input-grid{grid-template-columns:minmax(0,1fr)}
+  .reverse-actions{grid-column:1}
+  .reverse-actions button{width:100%}
+  #errors{scroll-margin-top:15px}
+}
+@media (max-width:355px){
+  .wrap{padding-left:9px;padding-right:9px}
+  .tabs button{font-size:9px}
+  .tabs .nav-icon{font-size:17px}
+  .theory-grid .metric strong{font-size:17px}
+  .metric strong{font-size:16px}
+  .sim-run-actions{grid-template-columns:minmax(0,1fr) 102px}
+}
+@media (min-width:801px){
+  .tabs .tab-mobile-label,.tabs .nav-icon{display:none}
+  .tabs .tab-desktop-label{display:inline}
+}
+
+.mobile-note-toggle{display:none}
+.sim-history-wrap>summary{display:none}
+@media(max-width:800px){
+  .desktop-sim-note{display:none}
+  .mobile-note-toggle{display:block;border:1px solid #31516e;border-radius:10px;padding:10px 12px;margin:10px 0;background:#13263c}
+  .mobile-note-toggle summary{color:#b9dafe;font-weight:600;font-size:13px;cursor:pointer;line-height:1.6}
+  .mobile-note-toggle .note{margin:10px 0 0;padding-top:10px;border-top:1px solid #31516e}
+  .sim-history-wrap{margin:16px 0 10px}
+  .sim-history-wrap>summary{display:block;border:1px solid #375774;background:#193650;color:#d6eaff;padding:13px;border-radius:10px;font-weight:600;font-size:14px;cursor:pointer}
+  .sim-history-wrap[open]>summary{border-radius:10px 10px 0 0;margin-bottom:14px}
+}
+
+/* iOS PWA enhancements; keep the original calculation engine. */
+@supports(padding-top:env(safe-area-inset-top)){
+  body{padding-top:env(safe-area-inset-top,0px)}
+}
+button, summary, a { -webkit-tap-highlight-color:transparent }
+button:focus-visible, a:focus-visible,summary:focus-visible{outline:2px solid #7bcaff;outline-offset:2px}
+#bootGuard{background:#2c2430;border:1px solid #a8724a;color:#ffddc2;padding:12px 15px;border-radius:12px;margin:13px 0;font-size:13px;line-height:1.7}
+#bootGuard code{color:#ffe4d1}
+.ios-guide{margin-top:10px;border:1px solid #34516c;background:#10253c;border-radius:12px;padding:12px 14px;font-size:13px;line-height:1.7}
+.ios-guide summary{cursor:pointer;font-weight:700;color:#d8efff;padding:3px 0}
+.ios-guide p{margin:8px 0 4px}
+.ios-guide ol{padding-left:22px;margin:6px 0 4px}
+.ios-status{font-size:12px;color:#9fd5bb;padding:2px 6px}
+@media(max-width:800px){
+  input[type='file']{font-size:16px}
+  .mobile-tools .actions{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ios-guide{margin-bottom:5px}
+}
+
+
+/* α23.5-specific PWA refinements */
+@media(max-width:800px){
+  .sim-prize-panel{padding:12px 10px}
+  .sim-border-import{padding:12px 10px}
+  .sim-cost-mode{display:grid;gap:8px}
+  .sim-cost-mode label{min-height:48px;font-size:13px}
+  .sim-border-toggle{line-height:1.5;font-size:13px}
+  #applyTheoryBorderToSim{min-height:44px;max-width:100%}
+  .sim-prize-panel input{font-size:16px}
+  .sim-preview strong{font-size:18px}
+  .border-proto{padding:14px 11px}
+  .border-proto-inputs{grid-template-columns:minmax(0,1fr)}
+  #simBorderImportStatus{overflow-wrap:anywhere}
+  .sim-border-import-detail{gap:8px}
+}
+</style></head><body><div class="wrap">
+<div id="bootGuard" role="status">起動準備中です。数値が表示されず、このメッセージが消えない場合は、iPhoneの「ファイル」アプリのプレビューではなく、HTTPSで公開したサイトを<strong>Safari</strong>で開いてください。HTMLのプレビューではJavaScriptが動かない場合があります。</div><header class="top"><div><span class="tag">iOS版 α23.5 / ボーダー自動連動</span><h1>🎰 パチンコスペックラボ</h1><div class="muted">数値入力式スペック設計・理論値・シミュレーション・逆算</div></div>
+<div class="actions"><button class="secondary" id="export">JSON保存</button><button class="secondary" id="importBtn">JSON読込</button><input type="file" id="import" accept=".json,application/json" hidden><button class="secondary" id="saveLocal">端末に保存</button><button class="secondary" id="loadLocal">端末から復元</button><button class="secondary" id="reset">サンプルに戻す</button></div>
+<details class="mobile-tools" id="mobileTools"><summary>📁 スペックデータの保存・読込・初期化 <span aria-hidden="true">⌄</span></summary><div class="actions"><button class="secondary" type="button" id="mobileExport">JSON保存</button><button class="secondary" type="button" id="mobileImport">JSON読込</button><button class="secondary" type="button" id="mobileSaveLocal">端末に保存</button><button class="secondary" type="button" id="mobileLoadLocal">端末から復元</button><button class="secondary" type="button" id="mobileReset">サンプルに戻す</button></div></details></header>
+<details class="ios-guide" id="iosGuide"><summary>📱 iPhoneでアプリとして使う手順</summary>
+<ol><li>この一式をHTTPSのWebサイトとして公開する（ZIPの <code>index.html</code> などを同じフォルダに置く）。</li>
+<li>iPhoneの<strong>Safari</strong>で公開URLを開く。</li>
+<li>共有メニューから「ホーム画面に追加」→「Webアプリとして開く」をONにして追加。</li>
+<li>ホーム画面の「スペックラボ」を起動する。初回は通信が必要。2回目からはオフラインで起動できます（初回のキャッシュ成功後）。</li></ol>
+<p>サンプルが表示されない場合は「設計」→「サンプルに戻す」で初期化してください。端末内保存はSafariのサイトデータに保存されます。大切な設計はJSONでも保存してください。</p>
+<p class="ios-status" id="iosStatus" aria-live="polite">Webアプリの利用状況を確認中</p>
+</details>
+<nav class="tabs" id="tabs" aria-label="画面切り替え">
+<button data-tab="design" class="active"><span class="nav-icon" aria-hidden="true">🛠</span><span class="tab-mobile-label">設計</span><span class="tab-desktop-label">① スペック設計</span></button>
+<button data-tab="analysis"><span class="nav-icon" aria-hidden="true">📊</span><span class="tab-mobile-label">理論</span><span class="tab-desktop-label">② 理論値</span></button>
+<button data-tab="simulation"><span class="nav-icon" aria-hidden="true">📈</span><span class="tab-mobile-label">試行</span><span class="tab-desktop-label">③ シミュレーション</span></button>
+<button data-tab="reverse"><span class="nav-icon" aria-hidden="true">🧮</span><span class="tab-mobile-label">逆算</span><span class="tab-desktop-label">④ 逆算</span></button>
+<button data-tab="compare"><span class="nav-icon" aria-hidden="true">💾</span><span class="tab-mobile-label">保存</span><span class="tab-desktop-label">⑤ 比較・保存</span></button>
+<button data-tab="guide"><span class="nav-icon" aria-hidden="true">📖</span><span class="tab-mobile-label">仕様</span><span class="tab-desktop-label">仕様</span></button>
+</nav>
+<div id="errors"></div><section id="design"><div class="panel"><h2>基本設定</h2><div class="grid"><div><label>スペック名</label><input id="name"></div><div><label>通常時当選確率（1/X）</label><input id="normalDenom" type="number" min="1" step="0.1"></div><div><label>大入賞口の賞球数（1カウントあたり）</label><input id="prize" type="number" min="1" step="1"></div><div><label>ヘソ賞球数</label><input id="hesoPrize" type="number" min="0" max="100" step="1"></div><div><label>他入賞賞球数</label><input id="otherPrize" type="number" min="0" max="100" step="1"></div><div><label>他入賞率（発射100玉あたり・%）</label><input id="otherEntryRate" type="number" min="0" max="100" step="0.1" value="4.2" inputmode="decimal"></div><div><label>電チュー賞球数</label><input id="denchuPrize" type="number" min="0" max="100" step="1"></div></div><p class="note">サンプルはエヴァ15（319）：P機・非LT。ヘソ・他入賞賞球と他入賞率（初期4.2%）を使い、逆算画面で実質250玉消費あたりの回転率を簡易換算します。シミュレーションの試作モードでは、発射100玉あたりのスタートと各賞球を差玉に反映できます。ボーダーは賞球の戻りを計算に含めて実質消費基準へ換算しますが、戻りを二重加算しないため、同じ大当たり性能ではボーダー値は変化しません。電チュー賞球は現在保存用で、右打ち消費率に含む想定です（別加算しません）。シミュレーション用の回転率は「シミュレーション」画面で設定できます。<br>状態の分類は「RUSH」「時短」「LT」「その他」から指定してください。右打ち中は定義された状態・振り分けに従い試算します。通常は大当たり1カウントあたり1玉の打ち込みを控除した正味出玉を表示します。理論値画面のみ払出への切替もできます。</p></div><div class="panel" id="limitPanel"><h2>リミット機能（回数制限・到達後の移行）</h2>
+<label class="theory-check" style="margin-bottom:14px"><input type="checkbox" id="limitEnabled">リミットを使用する</label>
+<div class="grid" id="limitFields"><div><label>リミット回数（初回を含む、1〜10回）</label><input id="limitMax" type="number" min="1" max="10" step="1" value="3"></div>
+<div><label>カウント対象</label><select id="limitCountMode"><option value="all">すべての大当たり</option><option value="selected">振り分けごとに対象指定</option></select></div>
+<div><label>リミット到達後の移行先</label><select id="limitExit"></select></div>
+<div><label>リミットのリセット条件</label><select id="limitResetMode"><option value="normal">リミット到達時・通常復帰時</option><option value="timeShort">到達時・通常復帰時・時短移行時</option><option value="rushExit">到達時・通常復帰時・RUSH・LT離脱時</option></select></div></div>
+<p class="note" id="limitSupportInfo" aria-live="polite"></p>
+<p class="note" id="limitExplanation">到達時の出玉・ラウンド振り分けは通常と同じです。規定回数の大当たり後だけ移行先を変更します。</p>
+</div><div class="panel"><div class="top"><h2>① 右打ち状態</h2><button id="addState">+ 状態を追加</button></div><p class="note">ST・時短の規定回転終了後、残保留は「② 理論値」または「③ シミュレーション」でON/OFFできます（ON時は4個固定）。確率参照先は状態ごとに設定可能です。ヘソ当たり・ヘソ落ち救済は抽選しません。</p><div class="scroll"><table><thead><tr><th>状態名</th><th>状態分類</th><th>当選確率 1/X</th><th>抽選回数（0=無期限）</th><th>残保留数（固定）</th><th>残保留確率</th><th>残保留独立分母</th><th>回数切れ後</th><th></th></tr></thead><tbody id="statesTable"></tbody></table></div></div><div class="panel"><h2>② 大当たり振り分け</h2><p class="note">各状態で当選したときの振り分けです。初当たりには「通常」を使用します。ヘソ落ち救済は計算対象外です。各状態の合計が100%になる必要があります。大当たりの正味獲得出玉は「（大入賞口の賞球数 − 1）× ラウンド数 × カウント数」で自動計算します（1カウントあたり打ち込み1玉、打ち損じ・オーバー入賞なしの基本モデル）。ヘソ・他入賞賞球の実入賞頻度は自動確定できません。通常時賞球による戻りは実回転率に織り込んでください。電チュー賞球の詳細計上は未実装です。</p><div class="scroll"><table><thead><tr><th>当選元</th><th>振り分け名</th><th>割合（%）</th><th>ラウンド数</th><th>カウント数/R</th><th>正味獲得玉数</th><th>当たり後の移行先</th><th>リミット対象</th><th></th></tr></thead><tbody id="outcomesTable"></tbody></table></div><button id="addOutcome">+ 振り分けを追加</button></div><div class="actions"><button id="apply">設定を検証して計算</button></div></section>
+<section id="analysis" class="hidden"><div class="panel theory-panel">
+<div class="theory-head"><div><h2>② 理論値 <span class="badge" id="theoryBasisBadge">正味獲得出玉</span></h2><p class="note">スペック設計をもとに、9つの理論値を自動計算します。</p></div></div>
+<div class="theory-settings" aria-label="理論値の計算設定">
+<h3>計算設定</h3>
+<div class="theory-setting-row"><div><strong>正味獲得出玉</strong><span class="theory-hint">ON：正味出玉 ／ OFF：払出出玉</span></div>
+<div class="theory-segment" role="radiogroup" aria-label="正味獲得出玉の表示"><label><input type="radio" name="theoryBasis" id="theoryNetOn" value="net"><span>ON</span></label><label><input type="radio" name="theoryBasis" id="theoryNetOff" value="gross"><span>OFF</span></label></div></div>
+<div class="theory-setting-row"><div><strong>残保留抽選</strong><span class="theory-hint">ST・時短終了後、4個固定で抽選</span></div>
+<label class="theory-check"><input id="residualEnabledAnalysis" type="checkbox"><span>残保留を有効にする</span></label></div>
+<p id="residualInfoAnalysis" class="theory-hint" style="margin:-7px 0 6px"></p>
+<div class="theory-setting-row theory-loss-row"><div><strong>右打ち中の玉減り</strong><span class="theory-hint">右打ちで当たった正味出玉への追加減少率</span></div>
+<div class="theory-loss-input"><input id="rightCostPercentAnalysis" type="number" inputmode="decimal" min="0" max="100" step="0.1" value="0" aria-label="右打ち中の玉減り率"><span>%</span></div></div>
+<input class="theory-loss-slider" id="rightCostSliderAnalysis" type="range" min="0" max="100" step="0.1" value="0" aria-label="右打ち玉減り率スライダー">
+<p class="theory-hint theory-inline-note" id="theoryLossInfo">右打ち当選時の正味出玉に適用します。初回の通常当たりには適用しません。</p>
+</div>
+<div class="theory-results-head"><h3>計算結果</h3><span class="note" id="theoryBasisNote">正味ベース</span></div>
+<div class="theory-grid" id="metrics" aria-live="polite"></div>
+
+<p class="note theory-help"><strong>計算上の定義：</strong>初当たり期待出玉は初当たり1回から終了までの期待出玉です。RUSH期待出玉はRUSH直行時の初回大当たりと、それ以降の追加大当たりの期待出玉を含みます（直行がないスペックでは初回RUSH到達時の当たりを含めて算出）。平均当たり回数は初当たりを含みます。ボーダーはヘソ・他入賞賞球を通常時の発射玉と払出の収支モデルに反映し、4円等価・実質250玉消費あたりの損益分岐回転数として算出します。この単位では賞球戻りの効果が換算時に相殺され、同じ初当たり期待正味出玉ならボーダー値自体は変化しません。RUSH突入率は初当たりから直接突入した割合。LT突入率は初当たりからLTへ到達する割合。RUSH・LT継続率は状態到達後の次回当たり確率です。LT期待出玉は、最初にLTへ突入する契機となった大当たりと、LT移行後の期待出玉の合計です（それ以前の通常RUSH等で獲得した玉は含めません）。複数のLT経路は初回LT到達頻度で重み付けします。リミット到達後の遷移も考慮します。右打ち玉減りは簡易的な割合控除であり、払出ベース表示には差し引きません。LT非搭載機のLT項目は対象外です。</p>
+</div></section>
+<section id="simulation" class="hidden"><div class="panel"><h2>モンテカルロ・シミュレーション</h2><label style="display:flex;align-items:center;gap:8px;margin:10px 0 8px"><input id="residualEnabledSimulation" type="checkbox" style="width:auto">残保留抽選を行う（ON：4個固定／OFF：抽選なし）</label><p class="note" id="residualInfoSimulation">ON時だけ規定回転終了後に残保留4個を抽選します。OFF時は残保留当選・残保留消化回転数ともに0です。ヘソ当たり・ヘソ落ち救済の抽選は行いません。</p>
+<div class="panel" style="background:#102039;margin-top:16px"><h3>シミュレーションの終了条件</h3><div class="sim-mode-options"><label><input type="radio" name="simMode" value="cycles" checked> 初当たり回数を指定</label><label><input type="radio" name="simMode" value="spins"> 通常時の総回転数を指定</label><label><input type="radio" name="simMode" value="days"> 1日単位で指定</label></div><div class="grid"><div><label id="targetLabel" for="simTarget">初当たり回数（最大32,768回）</label><input id="simTarget" type="number" min="1" max="32768" step="1" value="2000"></div><div id="simDaySpinsPane" class="hidden"><label for="simDaySpins">1日あたりの通常回転数（最大100万回転）</label><input id="simDaySpins" type="number" min="1" max="1000000" step="1" value="2000"></div><div><label for="seed">乱数シード（整数）</label><input id="seed" type="number" value="2026" step="1" aria-label="乱数シード"><span class="note">同じシード・同じ条件なら結果を再現できます。</span></div><div id="simNet250Input"><label>実質250玉あたりの回転数（回）</label><input id="spinsPer250" type="number" min="0.01" step="0.01" value="16.67"></div></div>
+<div class="sim-prize-panel" id="simPrizePrototype">
+ <h3>通常時の玉持ち・差玉計算 <span class="badge">α23.5</span></h3>
+ <p class="note">通常時の消費玉数に用いる計算方式を選べます。従来モードでは「実質250玉あたりの回転率」に戻り玉が含まれています。新モードは「発射100玉あたりのスタート数」を固定し、ヘソ・他入賞による払い出しを差し引きます。</p>
+ <div class="sim-cost-mode" role="group" aria-label="通常時の差玉計算方式">
+  <label><input type="radio" name="simCostMode" value="net250" checked> 従来方式：実質250玉基準</label>
+  <label><input type="radio" name="simCostMode" value="fired100"> 賞球反映：発射100玉基準</label>
+ </div>
+ <div class="sim-border-import">
+  <label class="sim-border-toggle" for="simBorderAuto"><input id="simBorderAuto" type="checkbox" checked> ②理論値のボーダーと自動連動（小数点第2位）</label>
+  <button id="applyTheoryBorderToSim" type="button" class="secondary">↻ 自動連動に戻す</button>
+  <div class="sim-border-import-detail"><span id="simAvailableBorder" class="note">理論ボーダーを計算中</span><span id="simBorderTargetHelp" class="note"></span></div>
+  <p id="simBorderImportStatus" class="note" role="status" aria-live="polite">自動連動中です。回転率を手動変更すると自動連動を停止します。</p>
+ </div>
+ <div id="simPrizeInputs" class="hidden">
+  <div class="grid">
+   <div><label for="simStartsPer100">スタート（回／発射100玉）</label><input id="simStartsPer100" type="number" min="0.01" max="100" step="0.01" value="5.5" inputmode="decimal"></div>
+   <div><label for="simHesoPrize">ヘソ賞球（玉）</label><input id="simHesoPrize" type="number" min="0" max="100" step="1" inputmode="numeric"></div>
+   <div><label for="simOtherPrize">他入賞賞球（玉）</label><input id="simOtherPrize" type="number" min="0" max="100" step="1" inputmode="numeric"></div>
+   <div><label for="simOtherEntryRate">他入賞率（回／発射100玉）</label><input id="simOtherEntryRate" type="number" min="0" max="100" step="0.1" inputmode="decimal"></div>
+  </div>
+  <div class="sim-quick-choice"><button class="secondary" type="button" data-sim-heso="1">ヘソ1個に設定</button><button class="secondary" type="button" data-sim-heso="3">ヘソ3個に設定</button></div>
+  <div id="simPrizePreview" class="sim-preview" aria-live="polite"></div>
+  <p class="note">各入賞の払い出しは平均値で計上します。ヘソ1入賞＝1回転、他入賞率は発射100玉あたりの平均入賞回数です。他入賞を1玉ずつ乱数抽選するモデルではありません。出玉側のアタッカー賞球・右打ち玉減りは従来どおり。乱数シードを固定すれば、1個／3個賞球で同じ当たり結果を比較できます。</p>
+ </div>
+ <p id="simCostStatus" class="sim-cost-status" aria-live="polite"></p>
+</div><div class="actions" id="simPresets" style="margin-top:12px"></div><div class="sim-run-actions"><button id="runSim" type="button">▶ シミュレーション実行</button><button id="randomSeed" class="secondary" type="button" title="新しい整数シードを自動生成します">🎲 ランダム</button></div><p class="note" id="simModeInfo">初当たり回数を指定した場合、指定した初当たりサイクルが終わるまで計算します。</p></div><details class="mobile-note-toggle"><summary>ⓘ RUSH突入率などの集計ルールを見る</summary><p class="note">RUSH突入率＝初当たり直行のみ。トータル突入率＝直行＋時短中の当選（時短残保留も含む）からの初回RUSH到達。RUSHスルー＝これらの経路で初めてRUSHに入った後、RUSH中・RUSH残保留で1回も当たらず終了した回数。⑤⑥は初当たり回数、⑦時短引き戻し率は初当たりで時短を獲得した回数、⑧RUSHスルー率と⑨RUSH残保留引き戻し率はRUSH直行＋時短引き戻しによるRUSH初回突入回数を分母とします。⑩時短残保留引き戻し率は、時短が規定回転を消化して残保留抽選に進んだ回数を分母とします。分数は約分しません（例：3/5＝60%）。残保留の分子は該当状態の残保留で実際に当選した件数で、RUSH中に何度も残保留へ到達する場合は⑨が100%を超えることがあります。各カード下部には抽選機会と消化保留数を表示します。</p></details><div class="desktop-sim-note"><p class="note">RUSH突入率＝初当たり直行のみ。トータル突入率＝直行＋時短中の当選（時短残保留も含む）からの初回RUSH到達。RUSHスルー＝これらの経路で初めてRUSHに入った後、RUSH中・RUSH残保留で1回も当たらず終了した回数。⑤⑥は初当たり回数、⑦時短引き戻し率は初当たりで時短を獲得した回数、⑧RUSHスルー率と⑨RUSH残保留引き戻し率はRUSH直行＋時短引き戻しによるRUSH初回突入回数を分母とします。⑩時短残保留引き戻し率は、時短が規定回転を消化して残保留抽選に進んだ回数を分母とします。分数は約分しません（例：3/5＝60%）。残保留の分子は該当状態の残保留で実際に当選した件数で、RUSH中に何度も残保留へ到達する場合は⑨が100%を超えることがあります。各カード下部には抽選機会と消化保留数を表示します。</p></div><p class="note" id="simResultInfo" role="status"></p><div class="row" id="simMetrics"></div><div id="dailyPanel" class="panel hidden" style="background:#102039"><h3>日別シミュレーション結果</h3><p class="note">各日とも通常時の指定回転数で終了します。最後の回転で初当たりしたときは、そのRUSH・時短の終了まで消化します。翌日は差玉0から再開し、残りの通常回転・RUSH状態を持ち越しません。勝率は日別差玉がプラスだった日の割合です。</p><div class="row" id="dailyMetrics"></div><div class="actions"><button id="exportDailyCsv" class="secondary" type="button">日別結果をCSV保存</button></div><p class="mobile-swipe-hint">← 日別結果は左右にスワイプして確認できます →</p><div class="scroll daily-scroll"><table><thead><tr><th>日</th><th>通常回転数</th><th>初当たり</th><th>日別差玉</th><th>結果</th></tr></thead><tbody id="dailyTable"></tbody></table></div></div><div class="panel" id="distributionPanel"><h3>初当たり回転数の分布</h3><p class="note">初当たりまでの通常回転数を重複のない5区間に分類します。最後に当たらず終了した回転は集計対象外です。棒の長さは各区間の件数に比例します。</p><div id="distributionSummary" class="note">シミュレーション後に表示します。</div><div id="distributionChart" class="distribution-chart"></div></div><div class="hall-graph-head"><div><strong>差玉スランプグラフ</strong><span class="note">通常時の下降・当選時の上昇を連続表示</span></div><span id="chartSummary" class="note">シミュレーションを実行すると表示します</span></div>
+
+<div id="chartDayPicker" class="hidden" style="margin:0 0 10px;max-width:360px"><label for="chartDaySelect">表示するグラフ</label><select id="chartDaySelect"><option value="all">全期間（累計差玉）</option></select><span class="note">日を選ぶと、その日の差玉を0玉から表示します。</span></div><div class="chart-wrap"><canvas class="chart" id="simChart" width="1050" height="380" aria-label="差玉推移のスランプグラフ" role="img"></canvas><div id="chartHoverInfo" class="chart-hover note">グラフ上にカーソルを合わせると回転数と差玉が表示されます。</div></div>
+<details class="sim-history-wrap" id="simHistoryWrap" open><summary>初当たり履歴を見る（先頭200件）</summary><h3>初当たりごとのシミュレーション履歴</h3>
+<p class="note">履歴の「累計回転数」と上の「累計総回転数」は通常時の回転数のみを加算します（RUSH・時短・残保留の消化回転は含めません）。「初当たり回転数」は前の連チャン終了後から次の初当たりまでの通常時回転数です。総回転数指定で最後に当たらず終了した回転は上部の累計回転数・差玉にのみ含めます。「当たり回数」と「平均連荘回数」は初当たりを含みます。残保留引き戻しは、残保留抽選の直前の状態がRUSHか時短かで分類し、当選した件数を表示します。「差玉」は連チャン終了時点の累計差玉です。RUSH残保留率の分母は初回RUSH突入回数、時短残保留率の分母は時短後に残保留抽選へ進んだ回数を使います。先頭200件を表示し、全件をCSV保存できます。</p>
+<div class="actions"><button id="exportSimHistory" class="secondary" disabled>初当たり履歴をCSV保存</button><span class="muted" id="simHistoryCount"></span></div>
+<p class="mobile-swipe-hint">← 履歴は左右にスワイプして確認できます →</p><div class="scroll history-scroll"><table><thead><tr><th>初当たり番号</th><th>累計回転数</th><th>初当たり回転数</th><th>当たり回数（連荘含む）</th><th>初当たりの振り分け</th><th>残保留引き戻し</th><th>差玉</th></tr></thead><tbody id="simHistory"></tbody></table></div>
+</details><p class="note">グラフはホールのスランプグラフを参考にした、正味獲得出玉ベースの推移です。横軸は「総消化回転数（通常＋時短＋RUSH＋残保留）」で、上の「累計総回転数（通常時のみ）」とは異なります。通常回転では、従来方式なら250÷入力回転率（玉/回転）、賞球反映方式なら［100−（スタート数×ヘソ賞球）−（他入賞率×他入賞賞球）］÷スタート数（玉/回転）を差し引きます。両方式とも通常時の賞球を二重加算しません。残保留ON時のみ残保留4個の抽選を反映します。右打ち中の追加玉減り率は当たりの正味出玉に対する概算控除として当選時に反映し、右打ちの待機中の細かな増減は未反映です。カウント数・演出時間・実測の時間変化・釘・遊技速度は未反映です。大量試行ではグラフをピクセル単位で間引き、谷・山・当たり前後の急変をなるべく保持します。丸いマーカーは表示しません。非常に長い状態遷移は安全上の反復上限で打ち切ります。初当たり回転数の分布は当選した初当たりのみで集計します。</p></div></section>
+<section id="reverse" class="hidden">
+<div class="panel reverse-panel border-proto" id="borderPrototype">
+  <div class="border-proto-head"><h2>通常時の玉持ち換算</h2><span class="border-proto-tag">α23.5</span></div>
+  <p class="border-proto-desc">通常時のスタート数とヘソ・他入賞の戻り玉から、<strong>実質250玉を消費するまでに回せる回転数</strong>を換算します。計算値は「② 理論値」のボーダーと同じ単位です。</p>
+  <div class="border-proto-inputs">
+    <div><label for="borderStartPer100">スタート（回／発射100玉）</label><input id="borderStartPer100" type="number" min="0" max="100" step="0.1" value="5.5" inputmode="decimal"></div>
+    <div><label for="borderHesoPrize">ヘソ賞球（玉）</label><input id="borderHesoPrize" type="number" min="0" max="100" step="1" inputmode="numeric"></div>
+    <div><label for="borderOtherPrize">他入賞賞球（玉）</label><input id="borderOtherPrize" type="number" min="0" max="100" step="1" inputmode="numeric"></div>
+    <div><label for="borderOtherRate">他入賞率（回／発射100玉）</label><input id="borderOtherRate" type="number" min="0" max="100" step="0.1" inputmode="decimal"></div>
+  </div>
+  <div class="border-proto-result" id="borderProtoResult" role="status" aria-live="polite"></div>
+  <p class="border-proto-bottom">※ 発射100玉あたりの平均値による簡易換算です。ヘソ1回入賞＝1スタート、他入賞は平均入賞数として処理し、実質消費が正の場合のみ計算します。賞球を変更すると、同じスタートでも250玉消費あたりの回転数が変わります。シミュレーションでも同じ賞球設定を使えますが、計算方式の選択はシミュレーション画面で行ってください。</p>
+</div>
+  <div class="panel reverse-panel">
+    <div class="reverse-header"><div><h2>目標ボーダーから必要な期待出玉を逆算</h2><p class="note">4円等価・250玉（1,000円）あたりの回転数を基準に、必要な初当たり期待<strong>正味</strong>出玉を求めます。</p></div><span class="reverse-label">NEW</span></div>
+    <div class="reverse-input-grid">
+      <div><label for="revBorderNormalDenom">通常時の初当たり確率（1/X）</label><input id="revBorderNormalDenom" type="number" value="319.7" min="1" step="any" inputmode="decimal"></div>
+      <div><label for="revBorderTarget">目標ボーダー（回 / 1,000円）</label><input id="revBorderTarget" type="number" value="17.5" min="0.01" step="any" inputmode="decimal"></div>
+      <div class="reverse-actions"><button type="button" id="calcRevBorder">期待出玉を計算</button><button type="button" class="secondary" id="revUseCurrentSpec">設計中の初当たり確率を使う</button></div>
+    </div>
+    <div id="revBorderResult" class="reverse-result" role="status" aria-live="polite"></div>
+    <p class="note reverse-footnote">求めるのは目標となる期待出玉です。現状の振り分けがこの出玉を満たすとは限りません。賞球・規制適合性はこの逆算では判定しません。</p>
+  </div>
+  <div class="panel reverse-panel">
+    <h2>目標継続率から必要なST回数を逆算</h2>
+    <p class="note">ST中の大当たり確率が決まっている場合に、必要な整数ST回数を算出します。</p>
+    <div class="reverse-input-grid">
+      <div><label for="revDenom">ST中の当選確率（1/X）</label><input id="revDenom" type="number" value="99.9" min="1" step="any" inputmode="decimal"></div>
+      <div><label for="revTarget">目標継続率（%）</label><input id="revTarget" type="number" value="80" min="0" max="100" step="any" inputmode="decimal"></div>
+      <div class="reverse-actions"><button type="button" id="calcReverse">必要回数を計算</button></div>
+    </div>
+    <div id="reverseResult" class="reverse-result" role="status" aria-live="polite"></div>
+  </div>
+  <div class="panel reverse-panel">
+    <div class="reverse-header"><div><h2>ST回数と目標継続率から大当たり確率を逆算</h2><p class="note">ST回数を固定したとき、目標継続率を満たす「1/X」のXを求めます。</p></div><span class="reverse-label">NEW</span></div>
+    <div class="reverse-input-grid">
+      <div><label for="revProbabilityTurns">ST回数</label><input id="revProbabilityTurns" type="number" value="163" min="1" max="10000000" step="1" inputmode="numeric"></div>
+      <div><label for="revProbabilityTarget">目標継続率（%）</label><input id="revProbabilityTarget" type="number" value="81" min="0" max="100" step="any" inputmode="decimal"></div>
+      <div class="reverse-actions"><button type="button" id="calcRevProbability">必要な確率を計算</button></div>
+    </div>
+    <div id="revProbabilityResult" class="reverse-result" role="status" aria-live="polite"></div>
+  </div>
+  <p class="note reverse-shared-note">※ ST逆算の2機能は「各回転が同一確率の独立抽選」「当選後は同じSTに再突入」を仮定します。残保留・時短引き戻し・転落・リミット・LTなどは含みません。</p>
+</section>
+<section id="compare" class="hidden"><div class="panel"><h2>スペック比較</h2><div class="actions"><button id="saveCompare">現在の設計を比較リストに追加</button><button class="secondary" id="clearCompare">リストをクリア</button><button class="secondary" id="exportCsv">比較をCSVで保存</button></div><div class="scroll"><table><thead><tr><th>名称</th><th>初回からの継続率</th><th>平均当たり回数</th><th>平均正味獲得出玉</th><th>初回LT到達率</th><th></th></tr></thead><tbody id="compareTable"></tbody></table></div></div></section>
+<section id="guide" class="hidden"><div class="panel"><h2>データ構造と計算仕様</h2>
+<p>リミット機は「全大当たり」「振り分けごとに対象指定」の2方式、初回を含む1〜10回を設定でき、到達時は当たりの出玉を付与してから指定した終了先に遷移します。理論値はリミットカウンターを含む状態遷移モデルで計算します。カウントのリセット条件は「通常復帰」「時短移行時も」「RUSH・LT離脱時も」から選択できます。到達時は必ずリセットします。RUSH継続率はリミット制限下でも「初めてRUSHへ入った直後の次回大当たり確率」であり、毎回一定の幾何分布継続率と同義ではありません。</p><p>α23.5の理論値画面には9項目を表示します。理論値は9項目で、正味ON/OFF・残保留ON/OFF・右打ち追加玉減り率を変更できます。正味ONは（大入賞口賞球−1）×ラウンド×カウント、OFFは大入賞口賞球×ラウンド×カウントを使用します。RUSH期待出玉には、直行したときの初回大当たりを含めます。LT期待出玉には、最初のLT突入契機の当たりと、その後の追加期待出玉を含めます（LT到達までに獲得済みの通常RUSH中の出玉は含めません）。ボーダーは正味ON/OFFに関係なく正味期待出玉を使います。通常時のヘソ・他入賞の戻りは、シミュレーションで「実質250玉基準」を選んだ場合には重ねて加算しません。「発射100玉基準」を選んだ場合のみ、スタート率と賞球から消費玉数を計算します。</p><p>α23.5の逆算画面：4円等価・250玉（1,000円）に対する目標ボーダーと初当たり確率から必要な初当たり期待正味出玉を逆算できます。単一ST（残保留・転落・リミットなどなし）の継続率とST回数・当選確率を相互に逆算できます。逆算結果は設計中のスペックや振り分けを自動変更しません。</p><p>モデル：<code>machineType</code>、<code>ltEnabled</code>、<code>hesoPrize</code>、<code>otherPrize</code>、<code>denchuPrize</code>、<code>limitEnabled</code>、<code>limitMax</code>、<code>limitCountMode</code>、<code>limitExit</code>、<code>limitResetMode</code>、<code>normalDenom</code>、<code>prize</code>、<code>rightCostPercent</code>、<code>baselineMode</code>、<code>spinsPer250</code>、<code>normalEfficiencyMode</code>、<code>normalShotsPerSpin</code>、<code>autoOtherHitsPer100</code>、<code>autoReferenceSpinsPer250</code>、<code>extraHesoPer100</code>、<code>otherHitsPer100</code>、<code>states[]</code>、<code>outcomes[]</code>。</p>
+<p>状態：<code>id, name, role, denom, spins, timeout, residualCount, residualMode, residualDenom, hesoDraws, hesoMode, hesoDenom</code>。振り分け：<code>source, label, weight, rounds, count, balls, next, hesoNext, limitMarked</code>。残保留は規定回数が終わった後に独立抽選し、当選時はその状態の当たり振り分けを適用。<code>hesoDraws</code>・<code>hesoMode</code>・<code>hesoNext</code> は過去データとの互換性のために保持していますが、現在はヘソ当たりとヘソ落ち救済を抽選しません。</p>
+<p>確率参照は「通常時」「その状態」「独立確率」から選択できます。エヴァ15の残保留は通常時約1/319.7を使い、当選時は特図2の10R→STです。残保留はON/OFFを一括切替（ONではすべての状態で4個固定、OFFでは抽選を行わない）できます。ヘソ当たり・ヘソ落ち救済は計算しません。</p>
+<p>理論値は残保留ON時の抽選順を「規定回転（右打ち） → 規定回転終了後の残保留4個」とし、OFF時は後半の残保留を省略し、各当たりの正味出玉の振り分けを重み付けした状態遷移方程式を解きます。RUSH継続率などはこの簡易遷移モデルから算出し、シミュレーションでも同じ抽選順に従います。シミュレーション履歴および上部の累計回転数は通常時のみを加算し、右打ち・残保留回転を含めません。シミュレーションは初当たり回数指定、通常時の総回転数指定（未当選の最終区間を含む）、日別モード（日数×1日あたりの通常回転数）に対応します。日別モードは各日で差玉と通常抽選をリセットし、その日に当選した初当たりからの右打ちは終了まで消化します。シミュレーションの時短引き戻し率は初当たりで時短を獲得した回数、RUSHスルー率とRUSH残保留引き戻し率はRUSHへの直行＋時短引き戻しによるRUSH初回突入回数、時短残保留引き戻し率は時短終了後に残保留抽選へ進んだ回数を分母とします。RUSH直行率とトータル突入率のみ初当たり回数を分母とします。分数は約分しません。差玉グラフの横軸は通常時以外の消化回転も含みます。</p>
+<p>制限：ヘソ保留の抽選、保留の入賞順、特図優先消化、初当たり時に残ったヘソ保留の持ち越し、残保留からの救済や特図1/2の複雑な抽選順は再現しません。小当たり、V入賞、転落競合、普図抽選、C時短、電チュー・アタッカー周りの出玉増減の個別計算、法令・内規の適合性判定も未実装です。他入賞頻度は入力した簡易入賞率を使用し、発射タイミングなどの実測ベースの詳細計算は行いません。</p>
+<p>賞球反映シミュレーション（α23）：通常時の消費玉数を2方式から選びます。従来の「実質250玉基準」は入力済み回転率をそのまま使い、戻り玉を重複計上しません。「発射100玉基準」はスタート数を発射100玉あたりで指定（初期5.5回）し、ヘソ賞球と他入賞（初期4.2%）の払出を差し引いた消費玉を通常時の各回転に配分します。α23.5では②理論値のボーダーが自動連動ON（初期値）で反映されます。従来方式では実質250玉あたりの回転率に、賞球反映方式ではボーダー達成に必要なスタート数に自動換算し、小数第2位までで入力されます。手動入力すると自動連動をOFFにし、チェック欄または再開ボタンからONに戻せます。小数第2位の丸めで発射100玉方式の実質換算には微差が生じます。現在のモデルは平均値であり、ヘソ・他入賞の玉ごとのランダム変動はありません。両方式で同時に賞球を控除・加算することはありません。RUSH・時短中の玉減りは従来の概算のままです。</p><p>エヴァ15は公開スペックから設定した近似サンプルであり、通常時の発射玉数・他入賞頻度は例示値です。ボーダーや実機挙動との完全一致は保証しません。ヘソ当たり・ヘソ落ち救済は現在計算対象外です。正味ONの出玉とシミュレーション差玉は、1カウントにつき打ち込み1玉を控除しています。正味OFFは理論値の出玉表示のみ払出に切り替えます。右打ち中の追加玉減りは右打ちで発生した大当たり正味出玉に対する割合で近似し、厳密な電サポ玉増減は未実装です。右打ち追加玉減り率はα23.5理論値画面で0〜100%に変更でき、正味ベースの期待出玉・ボーダーおよびシミュレーションの当たり獲得玉数に適用されます。残保留は <code>residualEnabled</code>（ON/OFF、初期値ON）で理論値・シミュレーションを共通制御します。</p></div></section>
+</div><script>
+window.addEventListener('error',function(ev){const guard=document.getElementById('bootGuard');if(guard){guard.style.display='block';guard.textContent='起動エラー: '+(ev.message||'JavaScript処理に失敗')+'。公開URLをSafariで開き、再読み込みしてください。';}});
+if(typeof window.structuredClone!=='function')window.structuredClone=function(value){return JSON.parse(JSON.stringify(value));};
+</script><script>
+'use strict';const $=id=>document.getElementById(id);const END='end',NORMAL='normal';const sample=()=>({
+ version:23.5,simBorderAuto:true,otherEntryRate:4.2,limitEnabled:false,limitMax:3,limitCountMode:'all',limitExit:END,limitResetMode:'normal',name:'Pエヴァンゲリオン15 未来への咆哮（319）',machineType:'P',ltEnabled:false,
+ simCostMode:'net250',simStartsPer100:5.5,simMode:'cycles',simCycles:2000,simNormalSpins:100000,simDays:30,simDaySpins:2000,normalDenom:319.7,spinsPer250:17,prize:15,hesoPrize:1,otherPrize:5,denchuPrize:1,rightCostPercent:0,theoryNet:true,baselineMode:false,residualEnabled:true,normalEfficiencyMode:'auto',normalShotsPerSpin:16,extraHesoPer100:0,otherHitsPer100:0,
+ states:[
+  {id:'rush',name:'IMPACT MODE（ST）',role:'rush',denom:99.4,spins:163,timeout:END,residualCount:4,residualMode:'normal',residualDenom:319.7,hesoDraws:0,hesoMode:'state',hesoDenom:99.4},
+  {id:'jitan',name:'チャンスタイム（時短100）',role:'timeShort',denom:319.7,spins:100,timeout:END,residualCount:4,residualMode:'normal',residualDenom:319.7,hesoDraws:0,hesoMode:'state',hesoDenom:319.7},
+  {id:'jitan500',name:'ヘソ落ち救済・時短500',role:'timeShort',denom:319.7,spins:500,timeout:END,residualCount:4,residualMode:'normal',residualDenom:319.7,hesoDraws:0,hesoMode:'state',hesoDenom:319.7}
+ ],
+ outcomes:[
+  {source:NORMAL,label:'10R確変・ST163',weight:3,rounds:10,count:10,balls:1500,next:'rush',hesoNext:''},
+  {source:NORMAL,label:'3R確変・ST163',weight:56,rounds:3,count:10,balls:450,next:'rush',hesoNext:''},
+  {source:NORMAL,label:'3R通常・時短100',weight:41,rounds:3,count:10,balls:450,next:'jitan',hesoNext:'jitan500'},
+  {source:'rush',label:'10R確変・ST163',weight:100,rounds:10,count:10,balls:1500,next:'rush'},
+  {source:'jitan',label:'10R確変・ST163',weight:100,rounds:10,count:10,balls:1500,next:'rush'},
+  {source:'jitan500',label:'10R確変・ST163',weight:100,rounds:10,count:10,balls:1500,next:'rush'}
+ ]
+});let spec=normalizeSpec(sample()),comparison=[],lastAnalysis=null,simHistoryData=[],dailyResults=[];const val=x=>Number(x);const round=(x,d=2)=>Number.isFinite(x)?x.toLocaleString('ja-JP',{maximumFractionDigits:d,minimumFractionDigits:d}):'—';const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const option=(value,label,selected)=>`<option value="${esc(value)}" ${value===selected?'selected':''}>${esc(label)}</option>`;const stateOpts=(selected,withNormal=false)=>`${withNormal?option(NORMAL,'初当たり（通常）',selected):''}${option(END,'終了',selected)}${spec.states.map(s=>option(s.id,s.name,selected)).join('')}`;
+function normalizeSpec(x){
+ x.normalEfficiencyMode??='detailed'; // 旧データは旧来の詳細入力を保持
+ x.version=23.5;x.simBorderAuto??=true;x.simBorderAuto=!!x.simBorderAuto;x.limitEnabled??=false;x.limitMax??=3;x.limitCountMode??='all';x.limitExit??=END;x.limitResetMode??='normal';x.simDays=Math.min(365,Math.max(1,Number(x.simDays)||30));x.simDaySpins=Math.min(1000000,Math.max(1,Number(x.simDaySpins)||2000));x.simCostMode=['net250','fired100'].includes(x.simCostMode)?x.simCostMode:'net250';x.simStartsPer100??=5.5;x.simMode??='cycles';x.simCycles=Math.min(32768,Math.max(1,Number(x.simCycles)||2000));x.simNormalSpins??=100000;x.machineType??='P';x.ltEnabled??=false;x.baselineMode=false;x.residualEnabled??=true;x.theoryNet??=true;
+ x.hesoPrize??=1;x.otherPrize??=5;x.otherEntryRate??=4.2;x.denchuPrize??=1;x.prize??=15;
+ x.rightCostPercent??=Math.max(0,Math.min(100,(Number(x.rightCost)||0)/Math.max(1,(Number(x.outcomes?.[0]?.balls)||1500))*100));
+ x.spinsPer250??=(Number.isFinite(x.spinCost)&&x.spinCost>0?250/x.spinCost:250/15);
+ x.extraHesoPer100??=0;x.otherHitsPer100??=0;
+ x.normalShotsPerSpin??=(250/x.spinsPer250+x.hesoPrize); // 旧JSONの実回転率を維持するための初期推定
+ if(!Number.isFinite(x.autoOtherHitsPer100)){
+  const residual=x.normalShotsPerSpin-x.hesoPrize-250/x.spinsPer250;
+  x.autoOtherHitsPer100=x.otherPrize>0&&residual>=-1e-8?Math.max(0,100*residual/x.otherPrize):null;
+ }
+ x.autoReferenceSpinsPer250??=x.spinsPer250;
+
+ delete x.realization;delete x.rightCost;delete x.spinCost;
+ x.states.forEach(state=>{
+  state.role??=(state.id==='lt'?'lt':'rush');
+  state.residualCount??=0;state.residualMode??='normal';state.residualDenom??=x.normalDenom;
+  state.residualCount=4;state.hesoDraws=0;state.hesoMode??='state';state.hesoDenom??=state.denom;
+ });
+ x.outcomes.forEach(outcome=>{
+  outcome.count??=10;outcome.rounds??=(Number(outcome.balls)||0)/(x.prize*outcome.count);
+  outcome.balls=outcome.rounds*outcome.count*Math.max(0,x.prize-1);outcome.hesoNext??='';outcome.limitMarked??=true;
+ });
+ return x;
+}
+function refreshNetBalls(){spec.outcomes.forEach(o=>{o.balls=o.rounds*o.count*Math.max(0,spec.prize-1)})}
+function renderDesign(){
+ $('name').value=spec.name;$('normalDenom').value=spec.normalDenom;$('prize').value=spec.prize;
+ $('hesoPrize').value=spec.hesoPrize;$('otherPrize').value=spec.otherPrize;$('otherEntryRate').value=spec.otherEntryRate;$('denchuPrize').value=spec.denchuPrize;
+ $('spinsPer250').value=Number(spec.spinsPer250).toFixed(2);syncSimMode();syncResidualMode();syncLimitControls();syncSimCostInputs();
+ const modeOptions=(selected)=>[['normal','通常時の確率'],['state','状態の確率'],['custom','独立確率']].map(([a,b])=>option(a,b,selected)).join('');
+ $('statesTable').innerHTML=spec.states.map((st,i)=>`<tr>
+ <td><input aria-label="状態名" data-kind="state" data-i="${i}" data-key="name" value="${esc(st.name)}"></td>
+ <td><select data-kind="state" data-i="${i}" data-key="role">${[['rush','RUSH'],['timeShort','時短'],['lt','LT'],['other','その他']].map(([v,n])=>option(v,n,st.role||'rush')).join('')}</select></td>
+ <td><input aria-label="当選分母" type="number" min="1" step="0.1" data-kind="state" data-i="${i}" data-key="denom" value="${st.denom}"></td>
+ <td><input aria-label="規定回数" type="number" min="0" step="1" data-kind="state" data-i="${i}" data-key="spins" value="${st.spins}"></td>
+ <td>${spec.residualEnabled?'4個':'OFF（0個）'}</td>
+ <td><select aria-label="残保留確率の参照先" data-kind="state" data-i="${i}" data-key="residualMode" ${spec.residualEnabled?'':'disabled'}>${modeOptions(st.residualMode)}</select></td>
+ <td><input aria-label="残保留独立分母" type="number" min="1" step="0.1" data-kind="state" data-i="${i}" data-key="residualDenom" value="${st.residualDenom}" ${spec.residualEnabled&&st.residualMode==='custom'?'':'disabled'}></td>
+ <td><select data-kind="state" data-i="${i}" data-key="timeout">${stateOpts(st.timeout)}</select></td>
+ <td><button class="danger" data-del-state="${i}">削除</button></td></tr>`).join('');
+ $('outcomesTable').innerHTML=spec.outcomes.map((o,i)=>`<tr>
+ <td><select data-kind="outcome" data-i="${i}" data-key="source">${option(NORMAL,'初当たり（特図1）',o.source)}${spec.states.map(st=>option(st.id,st.name,o.source)).join('')}</select></td>
+ <td><input aria-label="振り分け名" data-kind="outcome" data-i="${i}" data-key="label" value="${esc(o.label)}"></td>
+ <td><input aria-label="振り分け%" type="number" min="0" max="100" step="0.01" data-kind="outcome" data-i="${i}" data-key="weight" value="${o.weight}"></td>
+ <td><input aria-label="ラウンド数" type="number" min="0" step="1" data-kind="outcome" data-i="${i}" data-key="rounds" value="${o.rounds}"></td>
+ <td><input aria-label="カウント数" type="number" min="1" step="1" data-kind="outcome" data-i="${i}" data-key="count" value="${o.count}"></td>
+ <td>${round(o.balls,0)}玉</td>
+ <td><select data-kind="outcome" data-i="${i}" data-key="next">${stateOpts(o.next)}</select></td>
+ <td><input aria-label="リミット対象" type="checkbox" data-kind="outcome" data-i="${i}" data-key="limitMarked" ${o.limitMarked?'checked':''} ${spec.limitEnabled&&spec.limitCountMode==='selected'?'':'disabled'}></td>
+ <td><button class="danger" data-del-outcome="${i}">削除</button></td></tr>`).join('');
+}
+function syncLimitControls(){
+ $('limitEnabled').checked=!!spec.limitEnabled;$('limitMax').value=spec.limitMax;$('limitCountMode').value=spec.limitCountMode;
+ $('limitExit').innerHTML=stateOpts(spec.limitExit).replace('>終了</option>','>通常時へ戻る（終了）</option>');
+ $('limitResetMode').value=spec.limitResetMode;
+ for(const id of ['limitMax','limitCountMode','limitExit','limitResetMode'])$(id).disabled=!spec.limitEnabled;
+ const dest=spec.states.find(st=>st.id===spec.limitExit);
+ $('limitSupportInfo').textContent=!spec.limitEnabled?'ONにすると、移行先の電サポ回数を確認できます。':dest?('到達後：'+dest.name+' / 電サポ・抽選回数 '+(dest.spins===0?'無期限':dest.spins+'回')+'（右打ち状態一覧で設定）。到達時のみ別の回数にしたい場合は専用の状態を追加してください。'):'到達後：通常時に戻る（電サポなし）。';
+ $('limitExplanation').textContent=spec.limitEnabled?'対象の大当たりを数え、'+spec.limitMax+'回目も元のラウンド・正味出玉を獲得した後、移行先だけを変更します。規定到達でカウンターを0に戻し、選んだリセット条件にも従います。':'OFF時は従来の抽選と理論値を維持します。';
+}
+function isLimitHit(event){return spec.limitCountMode==='all'||!!event.limitMarked}
+function resolveLimitTransition(event,counter,source=NORMAL){
+ let next=event.next,after=counter,reached=false;
+ if(spec.limitEnabled&&event.hit&&isLimitHit(event)){
+  after=counter+1;
+  if(after>=spec.limitMax){after=0;next=spec.limitExit;reached=true}
+ }
+ // カウンターのリセットは大当たり時・回数切れ時の両方に適用。
+ // 「通常復帰」は現行モデルの END（初当たりサイクル終了）に対応する。
+ const fromRole=spec.states.find(st=>st.id===source)?.role;
+ const toRole=spec.states.find(st=>st.id===next)?.role;
+ const leavingRush=(fromRole==='rush'||fromRole==='lt')&&toRole!=='rush'&&toRole!=='lt';
+ if(next===END||(spec.limitResetMode==='timeShort'&&toRole==='timeShort')||(spec.limitResetMode==='rushExit'&&leavingRush))after=0;
+ return {next,after,reached};
+}
+function syncResidualMode(){
+ $('residualEnabledAnalysis').checked=!!spec.residualEnabled;
+ $('theoryNetOn').checked=!!spec.theoryNet;$('theoryNetOff').checked=!spec.theoryNet;
+ $('rightCostPercentAnalysis').value=String(spec.rightCostPercent);$('rightCostSliderAnalysis').value=String(spec.rightCostPercent);
+ $('residualEnabledSimulation').checked=!!spec.residualEnabled;
+ $('residualInfoAnalysis').textContent=spec.residualEnabled?'ON：規定回転終了後に残保留4個を抽選します。理論値とシミュレーションに共通適用。':'OFF：規定回転終了後の残保留抽選を省略します。ST・時短の規定回転内の抽選は変わりません。';
+ $('residualInfoSimulation').textContent=spec.residualEnabled?'ON：残保留4個を抽選し、当選回数・消化回転数を履歴に反映します。':'OFF：残保留は抽選せず、当選回数・消化回転数はともに0です。';
+}
+function clearSimulationResults(){
+ simHistoryData=[];
+ $('simMetrics').innerHTML='';$('simResultInfo').textContent='';$('simHistory').innerHTML='';$('simHistoryCount').textContent='設定を変更しました。再度「シミュレーション実行」を押してください。';$('dailyPanel').classList.add('hidden');$('dailyMetrics').innerHTML='';$('dailyTable').innerHTML='';$('distributionChart').innerHTML='';$('distributionSummary').textContent='シミュレーション後に表示します。';$('chartDayPicker').classList.add('hidden');$('chartDaySelect').innerHTML='<option value="all">全期間（累計差玉）</option>';dailyResults=[];
+ $('exportSimHistory').disabled=true;
+ const canvas=$('simChart');canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height);
+ $('chartSummary').textContent='シミュレーションを実行すると表示します';$('chartHoverInfo').textContent='グラフ上にカーソルを合わせると回転数と差玉が表示されます。';simGraphData=null;
+}
+function changeResidualEnabled(enabled){
+ if(spec.residualEnabled!==enabled){spec.residualEnabled=enabled;clearSimulationResults();}
+ syncResidualMode();renderDesign();updateAnalysis();
+}
+function syncEfficiencyMode(){const auto=spec.normalEfficiencyMode==='auto';$('autoEfficiencyPane').classList.toggle('hidden',!auto);$('detailedEfficiencyPane').classList.toggle('hidden',auto)}
+// 回転率と発射数だけで実際の他入賞頻度は特定できないため、推計値を独立に保持する。
+// 賞球数の変更時は推計入賞頻度を固定し、観測値に合わせ直す場合だけ再校正する。
+function calibrateAutoFrequency(){
+ const rem=spec.normalShotsPerSpin-spec.hesoPrize-250/spec.spinsPer250;
+ if(!Number.isFinite(rem)||rem < -1e-8)throw Error('自動推計不可：入力された回転率と発射玉数では、ヘソの戻り玉を説明できません。');
+ if(spec.otherPrize===0&&rem>1e-8)throw Error('自動推計不可：他入賞賞球が0玉のため、他入賞頻度を逆算できません。');
+ const hits=spec.otherPrize>0?100*Math.max(0,rem)/spec.otherPrize:0;
+ if(!Number.isFinite(hits)||hits>spec.normalShotsPerSpin*100)throw Error('自動推計不可：他入賞の回数が発射玉数を超えています。');
+ spec.autoOtherHitsPer100=hits;
+ spec.autoReferenceSpinsPer250=spec.spinsPer250;
+}
+function computeNormalEfficiency(){
+ const auto=spec.normalEfficiencyMode==='auto';
+ const hesoReturn=spec.hesoPrize*(1+(auto?0:spec.extraHesoPer100)/100);
+ const otherHitsPer100=auto?spec.autoOtherHitsPer100:spec.otherHitsPer100;
+ if(!Number.isFinite(otherHitsPer100)||otherHitsPer100<0)throw Error('自動推計値が設定されていません。シミュレーションの回転率を入力し、「他入賞頻度を再推計」を押してください。');
+ if(otherHitsPer100>spec.normalShotsPerSpin*100)throw Error('他入賞の推計回数が平均発射玉数を超えています。');
+ const otherReturn=spec.otherPrize*otherHitsPer100/100;
+ const netCostPerSpin=spec.normalShotsPerSpin-hesoReturn-otherReturn;
+ if(!(netCostPerSpin>0))throw Error('発射玉数より払い戻しが多い（または同数）ため、この簡易モデルでは回転率を算出できません。賞球数や入賞頻度を見直してください。');
+ return {auto,hesoReturn,otherReturn,otherHitsPer100,normalReturn:hesoReturn+otherReturn,netCostPerSpin,effectiveSpinsPer250:250/netCostPerSpin};
+}
+// 通常時の発射玉・戻り玉は差玉への１回だけの控除にまとめる。
+// 計算方式は「実質250玉入力」か「発射100玉入力」の排他的な選択。
+function computeSimNormalCost(){
+ if(spec.simCostMode!=='fired100'){
+  const value=Number(spec.spinsPer250);
+  if(!(Number.isFinite(value)&&value>0))throw Error('実質250玉あたりの回転率は0より大きく入力してください。');
+  return {mode:'net250',costPerSpin:250/value,effectiveSpinsPer250:value};
+ }
+ const starts=Number(spec.simStartsPer100),h=Number(spec.hesoPrize),o=Number(spec.otherPrize),rate=Number(spec.otherEntryRate);
+ if(!(Number.isFinite(starts)&&starts>0&&starts<=100&&Number.isInteger(h)&&h>=0&&h<=100&&Number.isInteger(o)&&o>=0&&o<=100&&Number.isFinite(rate)&&rate>=0&&rate<=100))throw Error('スタートは0より大きく100以下、賞球は0～100の整数、他入賞率は0～100%にしてください。');
+ if(starts+rate>100+1e-9)throw Error('スタートと他入賞率の合計が発射100玉を超えています。');
+ const hesoReturn=starts*h,otherReturn=rate*o,consumed=100-hesoReturn-otherReturn;
+ if(!(consumed>0))throw Error('発射100玉あたりの実質消費が0玉以下です。スタート・賞球・他入賞率を変更してください。');
+ return {mode:'fired100',starts,hesoReturn,otherReturn,consumed,costPerSpin:consumed/starts,effectiveSpinsPer250:250*starts/consumed};
+}
+// 自動連動は方式ごとの回転率を丸めて反映し、手入力時には停止する。
+// 発射100玉方式では未丸めの理論ボーダーから必要スタートを逆算した後に小数第2位で丸める。
+function startsForBorder(border){
+ const h=Number(spec.hesoPrize),o=Number(spec.otherPrize),r=Number(spec.otherEntryRate),b=Number(border);
+ if(!(Number.isFinite(b)&&b>0&&Number.isInteger(h)&&h>=0&&h<=100&&Number.isInteger(o)&&o>=0&&o<=100&&Number.isFinite(r)&&r>=0&&r<=100))throw Error('賞球・他入賞率またはボーダーの設定が不正です。');
+ const available=100-r*o;
+ if(!(available>0))throw Error('他入賞の払い出しが発射100玉以上のため、必要スタートを換算できません。');
+ const starts=b*available/(250+b*h);
+ const consumed=100-r*o-starts*h;
+ if(!(Number.isFinite(starts)&&starts>0&&starts<=100&&starts+r<=100+1e-9&&consumed>0))throw Error('この賞球条件ではボーダーを達成するスタート率を算出できません。');
+ return starts;
+}
+function updateBorderCopyInfo(){
+ const b=lastAnalysis?.border;
+ $('simAvailableBorder').textContent=Number.isFinite(b)&&b>0?`理論ボーダー：${round(b,2)} 回／実質250玉`:'理論ボーダー：算出不可';
+ $('simBorderTargetHelp').textContent=spec.simCostMode==='fired100'?'→ 必要スタート（回／発射100玉）に自動換算':'→ 実質250玉あたりの回転率に自動反映';
+ $('simBorderAuto').checked=!!spec.simBorderAuto;
+}
+function showBorderCopyStatus(message,kind=''){
+ const el=$('simBorderImportStatus');el.textContent=message;el.classList.toggle('success',kind==='success');el.classList.toggle('error',kind==='error');
+}
+function stopSimBorderAuto(){
+ if(spec.simBorderAuto){spec.simBorderAuto=false;$('simBorderAuto').checked=false;}
+ showBorderCopyStatus('手動入力中のため、自動連動はOFFです。再開すると現在の理論ボーダーを反映します。');
+}
+function syncTheoryBorderToSimulation(){
+ $('simBorderAuto').checked=!!spec.simBorderAuto;
+ if(!spec.simBorderAuto)return;
+ const b=lastAnalysis?.border;
+ if(!(Number.isFinite(b)&&b>0)){
+  showBorderCopyStatus('自動連動ON：理論ボーダーが算出できません。スペックの入力値を確認してください。','error');return;
+ }
+ try{
+  const key=spec.simCostMode==='fired100'?'simStartsPer100':'spinsPer250';
+  const raw=key==='simStartsPer100'?startsForBorder(b):b;
+  const value=Number(raw.toFixed(2));
+  if(!(value>0&&Number.isFinite(value)))throw Error('小数第2位に丸めると0になります。入力条件を確認してください。');
+  // 丸め後も発射玉モデルの設定が成立するか検証し、異常なら前の値を保持する。
+  const previous=spec[key];spec[key]=value;
+  try{computeSimNormalCost()}catch(err){spec[key]=previous;throw err;}
+  if(previous!==value)clearSimulationResults();
+  $(key).value=value.toFixed(2);
+  if(key==='simStartsPer100'){
+   const effective=computeSimNormalCost().effectiveSpinsPer250;
+   showBorderCopyStatus(`自動連動ON：必要スタート ${value.toFixed(2)} 回／発射100玉（実質 ${round(effective,2)} 回／250玉）。小数第2位の丸めにより理論ボーダーと微差が出る場合があります。`,'success');
+  }else{
+   showBorderCopyStatus(`自動連動ON：ボーダー ${round(b,2)} 回を ${value.toFixed(2)} 回／250玉として自動反映中。`,'success');
+  }
+ }catch(err){showBorderCopyStatus('自動連動ON：'+err.message,'error');}
+}
+function copyTheoryBorderToSimulation(){
+ spec.simBorderAuto=true;
+ $('simBorderAuto').checked=true;
+ updateAnalysis();
+}
+function syncSimCostInputs(){
+ document.querySelectorAll('[name="simCostMode"]').forEach(el=>el.checked=el.value===spec.simCostMode);
+ $('simPrizeInputs').classList.toggle('hidden',spec.simCostMode!=='fired100');
+ $('simNet250Input').classList.toggle('hidden',spec.simCostMode==='fired100');
+ for(const [id,key] of [['simStartsPer100','simStartsPer100'],['simHesoPrize','hesoPrize'],['simOtherPrize','otherPrize'],['simOtherEntryRate','otherEntryRate']]){
+  const el=$(id);if(document.activeElement!==el)el.value=String(spec[key]);
+ }
+ renderSimCostPreview();updateBorderCopyInfo();
+}
+function renderSimCostPreview(){
+ const host=$('simPrizePreview'),status=$('simCostStatus');
+ if(spec.simCostMode!=='fired100'){
+  status.textContent='従来方式：ヘソ・他入賞の払い戻しを含む実質250玉あたりの入力回転率を使用します。';return;
+ }
+ try{
+  const m=computeSimNormalCost(),f=n=>round(n,2);
+  const compare=(h)=>{const consumed=100-m.starts*h-m.otherReturn;return consumed>0&&m.starts+m.otherReturn/Math.max(1,Number(spec.otherPrize))<=100+1e-9?f(250*m.starts/consumed)+' 回':'計算不可'};
+  host.innerHTML=`<div><span class="note">現在の賞球設定での実質250玉消費あたりの回転数</span><br><strong>${f(m.effectiveSpinsPer250)} 回 / 250玉</strong></div>
+  <div class="note">発射100玉 → ヘソ戻り ${f(m.hesoReturn)}玉 ＋ 他入賞戻り ${f(m.otherReturn)}玉 ／ 実質消費 ${f(m.consumed)}玉<br>通常時1回転あたり ${f(m.costPerSpin)}玉を差玉から控除します。</div>
+  <div class="comparison"><div class="${spec.hesoPrize===1?'selected':''}"><span class="note">同じスタートでヘソ1個</span><br><strong>${compare(1)}</strong></div><div class="${spec.hesoPrize===3?'selected':''}"><span class="note">同じスタートでヘソ3個</span><br><strong>${compare(3)}</strong></div></div>`;
+  status.textContent=`賞球反映方式：実質${f(m.effectiveSpinsPer250)}回／250玉、通常時の消費 ${f(m.costPerSpin)}玉／回転。差玉グラフに反映されます。`;
+ }catch(err){host.innerHTML='<div class="warning">'+esc(err.message)+'</div>';status.textContent='賞球反映方式：入力値を修正してください。';}
+}
+function validate(){
+ const errors=[],ids=spec.states.map(st=>st.id),all=[...ids,END];
+ if(!spec.name.trim())errors.push('スペック名が空です');
+ if(!(spec.normalDenom>=1&&Number.isFinite(spec.normalDenom)))errors.push('通常確率は1以上の数値が必要です');
+ if(!(spec.spinsPer250>0&&Number.isFinite(spec.spinsPer250)))errors.push('250玉あたりの回転数は0より大きい数値にしてください');
+ if(!Number.isInteger(spec.prize)||spec.prize<1||spec.prize>100)errors.push('大入賞口賞球数は1〜100の整数にしてください');
+ for(const [k,label] of [['hesoPrize','ヘソ'],['otherPrize','他入賞'],['denchuPrize','電チュー']])if(!Number.isInteger(spec[k])||spec[k]<0||spec[k]>100)errors.push(label+'賞球数は0〜100の整数にしてください');
+ if(!(spec.rightCostPercent>=0&&spec.rightCostPercent<=100)||!Number.isFinite(spec.rightCostPercent))errors.push('右打ち消費率は0〜100%にしてください');
+ if(!(Number.isFinite(spec.otherEntryRate)&&spec.otherEntryRate>=0&&spec.otherEntryRate<=100))errors.push('他入賞率は0〜100%で入力してください');
+ if(ids.length>15)errors.push('状態は最大15個です');
+ if(spec.limitEnabled&&(!Number.isInteger(spec.limitMax)||spec.limitMax<1||spec.limitMax>10||!['all','selected'].includes(spec.limitCountMode)||!['normal','timeShort','rushExit'].includes(spec.limitResetMode)||!all.includes(spec.limitExit)))errors.push('リミット設定を確認してください（1〜10回・有効な移行先が必要です）');
+ if(new Set(ids).size!==ids.length||ids.includes(NORMAL)||ids.includes(END))errors.push('状態IDに重複・予約値があります');
+ for(const st of spec.states){
+  if(!['rush','timeShort','lt','other'].includes(st.role)||!st.name.trim()||!(st.denom>=1)||!Number.isFinite(st.denom)||!Number.isInteger(st.spins)||st.spins<0||st.spins>1000000||!all.includes(st.timeout))errors.push(`${st.name||st.id}: 状態の値が不正です`);
+  if(!['normal','state','custom'].includes(st.residualMode)||!(st.residualDenom>=1)||!Number.isFinite(st.residualDenom))errors.push(`${st.name}: 残保留設定が不正です`);
+  if(!Number.isInteger(st.hesoDraws)||st.hesoDraws<0||st.hesoDraws>16||!['normal','state','custom'].includes(st.hesoMode)||!(st.hesoDenom>=1)||!Number.isFinite(st.hesoDenom)||st.spins>0&&st.hesoDraws>st.spins)errors.push(`${st.name}: ヘソ保留設定が不正です（ST回数を超える消化は不可）`);
+ }
+ for(const o of spec.outcomes){
+  if(![NORMAL,...ids].includes(o.source)||!all.includes(o.next)||o.hesoNext&&!all.includes(o.hesoNext)||!o.label.trim()||!(o.weight>=0&&o.weight<=100)||!Number.isFinite(o.weight)||!Number.isInteger(o.rounds)||o.rounds<0||!Number.isInteger(o.count)||o.count<1||!Number.isFinite(o.balls))errors.push(`${o.label||'無名'}: 振り分けの値が不正です`);
+ }
+ for(const src of [NORMAL,...ids]){
+  const items=spec.outcomes.filter(o=>o.source===src),sum=items.reduce((acc,o)=>acc+o.weight,0);
+  if(Math.abs(sum-100)>0.001)errors.push(`${src===NORMAL?'初当たり':spec.states.find(st=>st.id===src)?.name}: 振り分け合計${round(sum)}%（100%必須）`);
+ }
+ return errors;
+}
+function probIn(count,denom){return count===0?0:-Math.expm1(count*Math.log1p(-1/denom))}
+function resolvedDenom(st,kind){const mode=st[kind+'Mode'];return mode==='normal'?spec.normalDenom:mode==='state'?st.denom:st[kind+'Denom']}
+function kernel(){
+ // Main draws first, then (only when enabled) exactly four residual holds. Heso/rescue excluded.
+ const events={[NORMAL]:spec.outcomes.filter(o=>o.source===NORMAL).map(o=>({p:o.weight/100,hit:true,balls:o.balls,grossBalls:o.rounds*o.count*spec.prize,next:o.next,kind:'initial',limitMarked:o.limitMarked}))};
+ for(const st of spec.states){
+  const main=st.spins===0?1:probIn(st.spins,st.denom);
+  const resP=spec.residualEnabled&&st.spins!==0?probIn(4,resolvedDenom(st,'residual')):0;
+  const residual=(1-main)*resP;
+  const miss=(1-main)*(1-resP);
+  const items=[];
+  for(const o of spec.outcomes.filter(o=>o.source===st.id)){
+   if(main>0)items.push({p:main*o.weight/100,hit:true,balls:o.balls,grossBalls:o.rounds*o.count*spec.prize,next:o.next,kind:'main',limitMarked:o.limitMarked});
+   if(residual>0)items.push({p:residual*o.weight/100,hit:true,balls:o.balls,grossBalls:o.rounds*o.count*spec.prize,next:o.next,kind:'residual',limitMarked:o.limitMarked});
+  }
+  if(miss>0)items.push({p:miss,hit:false,balls:0,grossBalls:0,next:st.timeout,kind:'timeout'});
+  events[st.id]=items;
+ }
+ return events;
+}
+function solve(A,b){const n=b.length;A=A.map((r,i)=>[...r,b[i]]);for(let i=0;i<n;i++){let im=i;for(let k=i+1;k<n;k++)if(Math.abs(A[k][i])>Math.abs(A[im][i]))im=k;if(Math.abs(A[im][i])<1e-11)throw Error('閉じたループなどにより期待値が求められません');[A[i],A[im]]=[A[im],A[i]];const v=A[i][i];for(let j=i;j<=n;j++)A[i][j]/=v;for(let k=0;k<n;k++)if(k!==i){let f=A[k][i];for(let j=i;j<=n;j++)A[k][j]-=f*A[i][j]}}return A.map(r=>r[n])}
+function analyzeBase(){
+ const errors=validate();if(errors.length)throw Error(errors.join('\n'));
+ const sources=[NORMAL,...spec.states.map(st=>st.id)],n=sources.length;
+ const events=kernel();
+ const role=id=>spec.states.find(st=>st.id===id)?.role;
+ const isRush=id=>id!==END&&(role(id)==='rush'||role(id)==='lt');
+ const matrix=()=>Array.from({length:n},(_,i)=>Array.from({length:n},(_,j)=>i===j?1:0));
+ const M=matrix(),netBalls=Array(n).fill(0),grossBalls=Array(n).fill(0),hits=Array(n).fill(0);
+ for(let i=0;i<n;i++)for(const event of events[sources[i]]){
+  netBalls[i]+=event.p*event.balls*(event.kind==='initial'?1:1-spec.rightCostPercent/100);grossBalls[i]+=event.p*(event.grossBalls||0);hits[i]+=event.p*(event.hit?1:0);
+  if(event.next!==END)M[i][sources.indexOf(event.next)]-=event.p;
+ }
+ const pay=solve(M,netBalls),grossPay=solve(M,grossBalls),count=solve(M,hits);
+ // Next jackpot probability: zero after first jackpot; timeout transitions can still hit.
+ const H=matrix(),nextHitB=Array(n).fill(0);
+ for(let i=1;i<n;i++)for(const event of events[sources[i]]){
+  if(event.hit)nextHitB[i]+=event.p;
+  else if(event.next!==END)H[i][sources.indexOf(event.next)]-=event.p;
+ }
+ const afterEntryHit=solve(H,nextHitB);
+ function firstPassage(target){
+  const A=matrix(),b=Array(n).fill(0);
+  for(let i=0;i<n;i++){
+   const src=sources[i];if(src!==NORMAL&&target(src)){b[i]=1;continue}
+   for(const event of events[src]){
+    if(event.next===END)continue;
+    if(target(event.next))b[i]+=event.p;
+    else A[i][sources.indexOf(event.next)]-=event.p;
+   }
+  }
+  return solve(A,b)[0];
+ }
+ const direct=events[NORMAL].filter(event=>isRush(event.next)).reduce((v,event)=>v+event.p,0);
+ const rushTotal=firstPassage(isRush);
+ const ltChance=spec.states.some(st=>role(st.id)==='lt')?firstPassage(id=>role(id)==='lt'):null;
+ function firstRushSpecific(targetId){
+  const A=matrix(),b=Array(n).fill(0);
+  for(let i=0;i<n;i++){
+   const src=sources[i];if(src!==NORMAL&&isRush(src)){b[i]=src===targetId?1:0;continue}
+   for(const event of events[src]){
+    if(event.next===END)continue;
+    if(isRush(event.next)){if(event.next===targetId)b[i]+=event.p}
+    else A[i][sources.indexOf(event.next)]-=event.p;
+   }
+  }
+  return solve(A,b)[0];
+ }
+ const entryBreakdown=spec.states.filter(st=>isRush(st.id)).map(st=>({name:st.name,prob:firstRushSpecific(st.id),q:afterEntryHit[sources.indexOf(st.id)],net:pay[sources.indexOf(st.id)]}));
+ const continuation=rushTotal>1e-12?entryBreakdown.reduce((v,x)=>v+x.prob*x.q,0)/rushTotal:null;
+ // RUSH初回到達時点からの追加期待正味出玉。初当たり/突入契機の当たりは含めない。
+ // RUSH直行で獲得した最初の大当たりを、直行した振り分けだけで条件付き平均。
+ const directEntries=events[NORMAL].filter(event=>isRush(event.next));
+ const expectedDirect=(gross=false)=>direct>1e-12?
+  directEntries.reduce((v,event)=>v+event.p*((gross?event.grossBalls:event.balls)+(gross?grossPay:pay)[sources.indexOf(event.next)]),0)/direct:null;
+ // 直行ゼロのスペックでは、時短等を経由して初回RUSHに到達した当たりを含めた条件付き期待値を使う。
+ function expectedFirstRushEntry(gross=false){
+  if(!(rushTotal>1e-12))return null;
+  const A=matrix(),b=Array(n).fill(0),future=gross?grossPay:pay;
+  for(let i=0;i<n;i++){
+   const src=sources[i];if(src!==NORMAL&&isRush(src))continue;
+   for(const event of events[src]){
+    if(event.next===END)continue;
+    if(isRush(event.next)){
+     const reward=gross?event.grossBalls:event.balls*(event.kind==='initial'?1:1-spec.rightCostPercent/100);
+     b[i]+=event.p*(reward+future[sources.indexOf(event.next)]);
+    }else A[i][sources.indexOf(event.next)]-=event.p;
+   }
+  }
+  return solve(A,b)[0]/rushTotal;
+ }
+ const rushExpected=direct>1e-12?expectedDirect(false):expectedFirstRushEntry(false);
+ const rushExpectedGross=direct>1e-12?expectedDirect(true):expectedFirstRushEntry(true);
+ // LTへ初めて入る経路だけを重み付けし、通常RUSHとLTの初回到達を混同しない。
+ function firstLtSpecific(targetId){
+  const A=matrix(),b=Array(n).fill(0),isLt=id=>role(id)==='lt';
+  for(let i=0;i<n;i++){
+   const src=sources[i];if(src!==NORMAL&&isLt(src)){b[i]=src===targetId?1:0;continue}
+   for(const event of events[src]){
+    if(event.next===END)continue;
+    if(isLt(event.next)){if(event.next===targetId)b[i]+=event.p}
+    else A[i][sources.indexOf(event.next)]-=event.p;
+   }
+  }
+  return solve(A,b)[0];
+ }
+ const ltEntries=spec.states.filter(st=>role(st.id)==='lt').map(st=>({prob:firstLtSpecific(st.id),q:afterEntryHit[sources.indexOf(st.id)]}));
+ const ltContinuation=ltChance!=null&&ltChance>1e-12?ltEntries.reduce((v,x)=>v+x.prob*x.q,0)/ltChance:null;
+ // LT初回到達「契機の当たり」＋「到達後に獲得する出玉」。
+ // LTに至る前のRUSH・時短当たりを加算せず、全到達経路を確率で重み付けする。
+ // 停止条件は最初のLT状態への進入（状態名に『上位』を仮定しない）。
+ function expectedFirstLtEntry(gross=false){
+  if(!(ltChance>1e-12))return null;
+  const A=matrix(),b=Array(n).fill(0),future=gross?grossPay:pay;
+  for(let i=0;i<n;i++){
+   const src=sources[i];if(src!==NORMAL&&role(src)==='lt')continue;
+   for(const event of events[src]){
+    if(event.next===END)continue;
+    if(role(event.next)==='lt'){
+     const reward=gross?event.grossBalls:event.balls*(event.kind==='initial'?1:1-spec.rightCostPercent/100);
+     b[i]+=event.p*(reward+future[sources.indexOf(event.next)]);
+    }else A[i][sources.indexOf(event.next)]-=event.p;
+   }
+  }
+  return solve(A,b)[0]/ltChance;
+ }
+ const ltExpected=expectedFirstLtEntry(false),ltExpectedGross=expectedFirstLtEntry(true);
+
+ // 正味出玉のみ。初当たり単体は減らさず、右打ち由来の当たり分だけ追加玉減り率を適用済み。
+ const realized=pay[0],realizedGross=grossPay[0];
+ const initialNet=events[NORMAL].reduce((sum,event)=>sum+event.p*event.balls,0);
+ const bonusContributions={rush:0,timeShort:0,lt:0,other:0};
+ for(const event of events[NORMAL]){
+  if(event.next===END)continue;
+  const targetRole=role(event.next);
+  const group=Object.hasOwn(bonusContributions,targetRole)?targetRole:'other';
+  bonusContributions[group]+=event.p*pay[sources.indexOf(event.next)];
+ }
+ const border=borderIncludingPrizeReturns(spec.normalDenom,realized);
+ return {continuation,ltContinuation,rushExpected,rushExpectedGross,ltExpected,ltExpectedGross,averageGrossBalls:realizedGross,averageHits:count[0],averageBalls:realized,initialNet,bonusContributions,directRush:direct,rushWithTime:rushTotal,ltChance,border,realized,entryBreakdown,
+ states:spec.states.map(st=>({name:st.name,role:role(st.id),q:events[st.id].filter(event=>event.hit).reduce((v,e)=>v+e.p,0),residual:spec.residualEnabled&&st.spins!==0?probIn(4,resolvedDenom(st,'residual')):0,heso:0}))};
+}
+// 限定機の理論値：右打ち状態に「リミットまでのカウント」を加えた有限マルコフモデル。
+function analyzeLimited(){
+ const problems=validate();if(problems.length)throw Error(problems.join('\n'));
+ const basic=kernel(),lim=spec.limitMax;
+ const nodes=[{id:NORMAL,c:0},...spec.states.flatMap(st=>Array.from({length:lim},(_,c)=>({id:st.id,c})))];
+ const key=(id,c)=>id+'|'+c,ix=new Map(nodes.map((node,i)=>[key(node.id,node.c),i]));
+ const role=id=>spec.states.find(st=>st.id===id)?.role;
+ const isRush=id=>id!==END&&(role(id)==='rush'||role(id)==='lt');
+ const isLt=id=>role(id)==='lt';
+ const edges=nodes.map(node=>basic[node.id].map(event=>{
+   const tr=resolveLimitTransition(event,node.c,node.id);
+   return {...event,next:tr.next,to:tr.next===END?-1:ix.get(key(tr.next,tr.after)),cAfter:tr.after,reached:tr.reached};
+ }));
+ const n=nodes.length,identity=()=>Array.from({length:n},(_,i)=>Array.from({length:n},(_,j)=>i===j?1:0));
+ const paySolve=gross=>{
+  const A=identity(),b=Array(n).fill(0);
+  for(let i=0;i<n;i++)for(const e of edges[i]){
+   b[i]+=e.p*(gross?(e.grossBalls||0):e.balls*(e.kind==='initial'?1:1-spec.rightCostPercent/100));
+   if(e.to>=0)A[i][e.to]-=e.p;
+  }
+  return solve(A,b);
+ };
+ const pay=paySolve(false),grossPay=paySolve(true);
+ const hitMatrix=identity(),hitB=Array(n).fill(0),nextMatrix=identity(),nextB=Array(n).fill(0);
+ for(let i=0;i<n;i++)for(const e of edges[i]){
+  hitB[i]+=e.p*(e.hit?1:0);if(e.to>=0)hitMatrix[i][e.to]-=e.p;
+  if(i>0){if(e.hit)nextB[i]+=e.p;else if(e.to>=0)nextMatrix[i][e.to]-=e.p;}
+ }
+ const count=solve(hitMatrix,hitB),nextHit=solve(nextMatrix,nextB);
+ // 各「最初に到達したRUSH/LTノード」に対する到達確率。
+ // ターゲット状態を吸収点にし、非ターゲット状態の期待訪問数を転置連立方程式で求める。
+ function firstEntryWeights(predicate){
+  const active=nodes.map((node,i)=>predicate(node.id)?-1:i).filter(i=>i>=0),ord=new Map(active.map((idx,k)=>[idx,k]));
+  const A=Array.from({length:active.length},(_,r)=>Array.from({length:active.length},(_,c)=>r===c?1:0));
+  const b=Array(active.length).fill(0);b[ord.get(0)]=1;
+  active.forEach((i,col)=>edges[i].forEach(e=>{if(ord.has(e.to))A[ord.get(e.to)][col]-=e.p}));
+  const occup=solve(A,b),weights=Array(n).fill(0),reward=Array(n).fill(0),grossReward=Array(n).fill(0);
+  active.forEach((i,k)=>edges[i].forEach(e=>{
+   if(e.to>=0&&predicate(nodes[e.to].id)){
+    const w=occup[k]*e.p;weights[e.to]+=w;
+    reward[e.to]+=w*e.balls*(e.kind==='initial'?1:1-spec.rightCostPercent/100);
+    grossReward[e.to]+=w*(e.grossBalls||0);
+   }
+  }));
+  return {weights,reward,grossReward,total:weights.reduce((x,y)=>x+y,0)};
+ }
+ const rush=firstEntryWeights(isRush),directEdges=edges[0].filter(e=>e.to>=0&&isRush(nodes[e.to].id));
+ const direct=directEdges.reduce((v,e)=>v+e.p,0);
+ const rushExpected=direct>1e-12?directEdges.reduce((v,e)=>v+e.p*(e.balls+pay[e.to]),0)/direct:rush.total>1e-12?rush.weights.reduce((v,w,i)=>v+w*pay[i]+rush.reward[i],0)/rush.total:null;
+ const rushExpectedGross=direct>1e-12?directEdges.reduce((v,e)=>v+e.p*((e.grossBalls||0)+grossPay[e.to]),0)/direct:rush.total>1e-12?rush.weights.reduce((v,w,i)=>v+w*grossPay[i]+rush.grossReward[i],0)/rush.total:null;
+ const continuation=rush.total>1e-12?rush.weights.reduce((v,w,i)=>v+w*nextHit[i],0)/rush.total:null;
+ const hasLt=spec.states.some(st=>isLt(st.id)),lt=hasLt?firstEntryWeights(isLt):null;
+ const ltChance=lt?lt.total:null,ltContinuation=ltChance!=null&&ltChance>1e-12?lt.weights.reduce((v,w,i)=>v+w*nextHit[i],0)/ltChance:null;
+ // 各リミットカウンター付きLTノードへの初回到達を確率重み付け。
+ // firstEntryWeights のrewardはLT突入契機の当たりだけを保持する。
+ const ltExpected=ltChance>1e-12?lt.weights.reduce((v,w,i)=>v+w*pay[i]+lt.reward[i],0)/ltChance:null;
+ const ltExpectedGross=ltChance>1e-12?lt.weights.reduce((v,w,i)=>v+w*grossPay[i]+lt.grossReward[i],0)/ltChance:null;
+
+ const initialNet=edges[0].reduce((s,e)=>s+e.p*e.balls,0),bonusContributions={rush:0,timeShort:0,lt:0,other:0};
+ for(const e of edges[0])if(e.to>=0){const group=role(nodes[e.to].id);bonusContributions[Object.hasOwn(bonusContributions,group)?group:'other']+=e.p*pay[e.to]}
+ const entryBreakdown=spec.states.filter(s=>isRush(s.id)).map(st=>{
+  const matches=nodes.map((node,i)=>node.id===st.id?i:-1).filter(i=>i>=0),prob=matches.reduce((v,i)=>v+rush.weights[i],0);
+  return {name:st.name,prob,q:prob?matches.reduce((v,i)=>v+rush.weights[i]*nextHit[i],0)/prob:0,net:prob?matches.reduce((v,i)=>v+rush.weights[i]*pay[i],0)/prob:0};
+ });
+ const realized=pay[0],realizedGross=grossPay[0];
+ const border=borderIncludingPrizeReturns(spec.normalDenom,realized);
+ return {continuation,ltContinuation,rushExpected,rushExpectedGross,ltExpected,ltExpectedGross,averageGrossBalls:realizedGross,averageHits:count[0],averageBalls:realized,initialNet,bonusContributions,directRush:direct,rushWithTime:rush.total,ltChance,border,realized,entryBreakdown,
+ states:spec.states.map(st=>({name:st.name,role:st.role,q:basic[st.id].filter(e=>e.hit).reduce((v,e)=>v+e.p,0),residual:spec.residualEnabled&&st.spins!==0?probIn(4,resolvedDenom(st,'residual')):0,heso:0}))};
+}
+// Convert expected jackpot net balls and base prizes into a 250-ball NET-consumption border.
+// The intermediate required starts/100 fired balls depend on the prize settings,
+// but the net-consumption border algebraically equals 250 * probability denominator / expected net balls.
+function borderIncludingPrizeReturns(normalDenom,expectedNet){
+ const h=Number(spec.hesoPrize),o=Number(spec.otherPrize),r=Number(spec.otherEntryRate);
+ if(!(Number.isFinite(normalDenom)&&normalDenom>=1&&Number.isFinite(expectedNet)&&expectedNet>0&&Number.isInteger(h)&&h>=0&&Number.isInteger(o)&&o>=0&&Number.isFinite(r)&&r>=0&&r<=100))return null;
+ const otherReturn=o*r;
+ if(otherReturn>=100)return null;
+ const requiredStart=(100-otherReturn)*normalDenom/(expectedNet+normalDenom*h);
+ const consumed=100-otherReturn-requiredStart*h;
+ if(!(consumed>0&&requiredStart>=0&&requiredStart+r<=100+1e-9))return null;
+ return 250*requiredStart/consumed;
+}
+function analyze(){return spec.limitEnabled?analyzeLimited():analyzeBase()}
+function renderBorderPrototype(){
+ const mapped=[['borderHesoPrize','hesoPrize'],['borderOtherPrize','otherPrize'],['borderOtherRate','otherEntryRate']];
+ for(const [id,key] of mapped){const el=$(id);if(document.activeElement!==el)el.value=spec[key];}
+ const host=$('borderProtoResult'),startInput=$('borderStartPer100').value.trim();
+ const starts=Number(startInput),h=Number(spec.hesoPrize),o=Number(spec.otherPrize),r=Number(spec.otherEntryRate);
+ const valid=startInput!==''&&Number.isFinite(starts)&&starts>=0&&starts<=100&&Number.isInteger(h)&&h>=0&&h<=100&&Number.isInteger(o)&&o>=0&&o<=100&&Number.isFinite(r)&&r>=0&&r<=100;
+ if(!valid){host.innerHTML='<div class="border-proto-warning">スタートは0〜100、賞球は0〜100の整数、他入賞率は0〜100で入力してください。</div>';return;}
+ const hesoReturn=starts*h,otherReturn=r*o,consumed=100-hesoReturn-otherReturn;
+ if(starts+r>100+1e-9||consumed<=0){host.innerHTML='<div class="border-proto-warning">入力条件では100玉の発射に対する入賞数が100を超えるか、実質消費が0玉以下です。スタート・賞球・他入賞率を見直してください。</div>';return;}
+ const net250=250*starts/consumed,firedFor250=25000/consumed;
+ const f=(n)=>round(n,2);
+ const theory=lastAnalysis?.border;
+ host.innerHTML=`<div><span class="note">実質250玉消費あたりの回転数</span><strong class="border-proto-large">${f(net250)}<span class="border-proto-unit"> 回 / 実質250玉</span></strong><small>${theory!=null?'理論ボーダー '+f(theory)+' 回 / 実質250玉（同じ単位）':'理論ボーダーは現在算出できません。'}<br>平均 ${f(firedFor250)} 玉発射すると、実質250玉を消費する計算です。</small></div><div class="border-proto-breakdown"><div><span>発射</span><b>100 玉</b></div><div><span>スタート</span><b>${f(starts)} 回</b></div><div><span>ヘソ戻り</span><b>${f(hesoReturn)} 玉</b></div><div><span>他入賞戻り</span><b>${f(otherReturn)} 玉</b></div><div><span>実質消費</span><b>${f(consumed)} 玉</b></div></div>`;
+}
+function updateAnalysis(){const e=$('errors');try{
+ lastAnalysis=analyze();e.innerHTML='';const a=lastAnalysis;
+ const percent=v=>v==null?'対象外':round(v*100,2)+'%';
+ syncResidualMode();
+ const net=!!spec.theoryNet;
+ const cards=[
+  ['初当たり期待出玉（'+(net?'正味':'払出')+'）',round(net?a.averageBalls:a.averageGrossBalls,2)+'玉'],
+  ['RUSH期待出玉（'+(net?'正味':'払出')+'）',(net?a.rushExpected:a.rushExpectedGross)==null?'対象外':round(net?a.rushExpected:a.rushExpectedGross,2)+'玉'],
+  ['平均当たり回数',round(a.averageHits,2)+'回'],
+  ['ボーダー（賞球反映・実質消費）',a.border==null?'算出不可':round(a.border,2)+'回/千円'],
+  ['RUSH突入率',percent(a.directRush)],
+  ['LT突入率',percent(a.ltChance)],
+  ['RUSH継続率',percent(a.continuation)],
+  ['LT継続率',percent(a.ltContinuation)],
+  ['LT期待出玉（'+(net?'正味':'払出')+'）',(net?a.ltExpected:a.ltExpectedGross)==null?'対象外':round(net?a.ltExpected:a.ltExpectedGross,2)+'玉']
+ ];
+ $('metrics').innerHTML=cards.map(([n,v],i)=>`<div class="metric"><small>${esc(n)}</small><strong>${esc(v)}</strong></div>`).join('');
+ $('theoryBasisBadge').textContent=net?'正味獲得出玉':'払出出玉';
+ $('theoryBasisNote').textContent=net?'正味ベース':'払出ベース（ボーダーは正味）';
+ $('theoryLossInfo').textContent=net?'右打ち中の当たりの正味出玉に適用し、初回の通常当たりには適用しません。':'払出表示は玉減りで減額しません。玉減りによる正味期待出玉とボーダーの変化は引き続き計算されます。';
+ renderBorderPrototype();updateBorderCopyInfo();syncTheoryBorderToSimulation();renderSimCostPreview();
+ return true;
+ }catch(err){lastAnalysis=null;e.innerHTML=`<div class="warning">${esc(err.message)}</div>`;updateBorderCopyInfo();return false}}
+function randGen(seed){let x=seed>>>0;return()=>{x+=0x6D2B79F5;let t=x;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return((t^t>>>14)>>>0)/4294967296}}function sampleGeom(r,p){return Math.floor(Math.log(Math.max(1e-15,1-r()))/Math.log1p(-p))+1}function weighted(src,r){let list=spec.outcomes.filter(o=>o.source===src),x=r()*100;for(const o of list){x-=o.weight;if(x<0)return o}return list[list.length-1]}
+// 状態名ではなく状態分類で「どの抽選で当たったか」を集計する。
+function hitCategory(role){return ({rush:'RUSH',timeShort:'時短',lt:'LT',other:'その他'})[role]||'その他'}
+function destCategory(stateId){if(stateId===END)return '通常';const st=spec.states.find(s=>s.id===stateId);return st?hitCategory(st.role):'その他'}
+function hitBreakdownString(counts){return ['通常','時短','RUSH','LT','その他','残保留'].filter(k=>counts[k]>0).map(k=>k+counts[k]).join(' / ')}
+const SIM_LIMITS={cycles:32768,spins:10000000,days:365,daySpins:1000000};
+function currentSimMode(){return ['cycles','spins','days'].includes(spec.simMode)?spec.simMode:'cycles'}
+function syncSimMode(){
+ const mode=currentSimMode();
+ document.querySelectorAll('[name="simMode"]').forEach(el=>el.checked=el.value===mode);
+ $('simTarget').value=mode==='cycles'?spec.simCycles:mode==='spins'?spec.simNormalSpins:spec.simDays;
+ $('simTarget').max=SIM_LIMITS[mode];
+ $('simDaySpins').value=spec.simDaySpins;
+ $('simDaySpinsPane').classList.toggle('hidden',mode!=='days');
+ $('targetLabel').textContent=mode==='cycles'?'初当たり回数（最大32,768回）':mode==='spins'?'通常時の総回転数（最大1,000万回転）':'シミュレーション日数（最大365日）';
+ $('simModeInfo').textContent=mode==='cycles'?'指定した初当たり回数分のサイクルを完了したら停止します。':mode==='spins'?'累計通常回転数が指定値になった時点で停止します。最後の未当選回転も差玉に反映します。':'1日あたりの通常回転数×日数で実行。各日終了時の差玉で勝敗判定します。初当たりの右打ちは完了まで消化し、翌日に持ち越しません。全期間の通常回転数は最大1,000万回転、初当たりは最大32,768回です。';
+ const options=mode==='cycles'?[1000,5000,10000,32768]:mode==='spins'?[2000,10000,100000,1000000,10000000]:[7,14,30,90,365];
+ $('simPresets').innerHTML=options.map(v=>`<button type="button" class="secondary preset" data-preset="${v}">${v.toLocaleString('ja-JP')}${mode==='days'?'日':mode==='cycles'?'回':'回転'}</button>`).join('');
+}
+function changeSimMode(mode){
+ if(!['cycles','spins','days'].includes(mode)||spec.simMode===mode)return;
+ spec.simMode=mode;syncSimMode();clearSimulationResults();
+}
+function simulate(){
+ if(!updateAnalysis())return;
+ const mode=currentSimMode(),target=Number($('simTarget').value),seed=Number($('seed').value);
+ const simDaySpins=Number($('simDaySpins').value);
+ if(!Number.isSafeInteger(target)||target<1||target>SIM_LIMITS[mode]||!Number.isSafeInteger(seed)||$('seed').value.trim()===''||(mode==='days'&&(!Number.isSafeInteger(simDaySpins)||simDaySpins<1||simDaySpins>SIM_LIMITS.daySpins||simDaySpins*target>SIM_LIMITS.spins))){
+  alert(`実行条件は1〜${SIM_LIMITS[mode].toLocaleString('ja-JP')}の整数。日別は1日1〜100万回転、総計1,000万回転以内、シードは安全な整数にしてください。`);return;
+ }
+ let simCost;
+ try{simCost=computeSimNormalCost()}catch(err){$('simCostStatus').textContent=err.message;alert('通常時の玉持ち計算：'+err.message);return;}
+ if(mode==='cycles')spec.simCycles=target;else if(mode==='spins')spec.simNormalSpins=target;else{spec.simDays=target;spec.simDaySpins=simDaySpins;}
+ const r=randGen(seed);
+ let total=0,allHits=0,cutoff=0,cumulativeNormalTurns=0,unhitTail=0;
+ let elapsedTurns=0;
+ let graphPoints=[[0,0]],graphMarks=[];
+ let currentDay=1,dayStartNormal=0,dayStartTotal=0,dayStartElapsed=0,dayStartCycles=0,dayGraphPoints=[[0,0]];
+ dailyResults=[];
+ const graphPoint=()=>{
+  const prev=graphPoints[graphPoints.length-1];
+  if(prev[0]!==elapsedTurns||Math.abs(prev[1]-total)>1e-8)graphPoints.push([elapsedTurns,total]);
+  if(mode==='days'){
+   const local=[elapsedTurns-dayStartElapsed,total-dayStartTotal],last=dayGraphPoints[dayGraphPoints.length-1];
+   if(local[0]!==last[0]||Math.abs(local[1]-last[1])>1e-8)dayGraphPoints.push(local);
+   if(dayGraphPoints.length>9000)dayGraphPoints=keepExtrema(dayGraphPoints,3200);
+  }
+  if(graphPoints.length>300000)graphPoints=keepExtrema(graphPoints,100000);
+ };
+ const graphMark=(kind)=>{
+  graphPoint();graphMarks.push({x:elapsedTurns,y:total,kind});
+  if(graphMarks.length>10000)graphMarks=graphMarks.filter((_,i)=>i%2===0);
+ };
+ let limitReachedEvents=0,directEntries=0,shortEntries=0,initialTimeShortEntries=0,shortComebacks=0,rushResidualHits=0,shortResidualHits=0,rushResidualTrials=0,shortResidualTrials=0,rushResidualDraws=0,shortResidualDraws=0,rushThroughs=0,maxChain=0,maxHamar=0;
+ simHistoryData=[];
+ const roles=Object.fromEntries(spec.states.map(s=>[s.id,s.role]));
+ const isRush=id=>roles[id]==='rush'||roles[id]==='lt';
+
+ let completedCycles=0,hitLimitReached=false,workLimitReached=false,totalStateSteps=0;
+ const finishDay=(complete)=>{
+  if(mode!=='days')return;
+  graphPoint();
+  const net=total-dayStartTotal;
+  dailyResults.push({day:currentDay,normalSpins:cumulativeNormalTurns-dayStartNormal,hits:completedCycles-dayStartCycles,net,complete,points:keepExtrema(dayGraphPoints,3000)});
+  currentDay++;dayStartNormal=cumulativeNormalTurns;dayStartTotal=total;dayStartElapsed=elapsedTurns;dayStartCycles=completedCycles;dayGraphPoints=[[0,0]];
+ };
+ for(let t=0;mode==='cycles'?t<target:mode==='spins'?cumulativeNormalTurns<target:currentDay<=target;t++){
+  if(mode==='days'&&cumulativeNormalTurns-dayStartNormal>=simDaySpins){finishDay(true);continue;}
+  if(completedCycles>=SIM_LIMITS.cycles){hitLimitReached=true;break;}
+  if(totalStateSteps>=500000){workLimitReached=true;break;}
+  const sampledNormalTurns=sampleGeom(r,1/spec.normalDenom);
+  const remaining=mode==='spins'?target-cumulativeNormalTurns:mode==='days'?simDaySpins-(cumulativeNormalTurns-dayStartNormal):Infinity;
+  const normalTurns=Math.min(sampledNormalTurns,remaining);
+  cumulativeNormalTurns+=normalTurns;
+  elapsedTurns+=normalTurns;
+  total-=normalTurns*simCost.costPerSpin;
+  graphPoint();
+  maxHamar=Math.max(maxHamar,normalTurns);
+  // 最後に当たらないまま上限回転へ到達した場合、初当たりもRUSHも発生しない。
+  if(sampledNormalTurns>remaining){if(mode==='days'){finishDay(true);continue;}unhitTail=normalTurns;break;}
+  let src=NORMAL,hits=0,limitCounter=0,cycleLimitReached=0,cycleRes=0,cycleRushRes=0,cycleShortRes=0,finished=false;
+  let initialOutcome=null,passedTimeShort=false,timeShortHit=false;
+  // RUSHへの初回到達経路のみ集計し、重複突入を防ぐ。
+  let rushOrigin=null,firstRushPending=false,cycleThrough=false;
+  const sourceCounts={'通常':0,'時短':0,'RUSH':0,'LT':0,'その他':0,'残保留':0};
+  const registerFirstRush=(dest,fromInitial)=>{
+   if(rushOrigin!==null||!isRush(dest))return;
+   rushOrigin=fromInitial?'direct':(passedTimeShort&&timeShortHit?'short':'other');
+   if(rushOrigin==='direct')directEntries++;
+   if(rushOrigin==='short'){shortEntries++;shortComebacks++}
+   if(rushOrigin!=='other')firstRushPending=true;
+  };
+  for(let steps=0;steps<5000;steps++,totalStateSteps++){
+   let outcome,hitMode='initial',next,sourceCategory='通常',stateRole=null;
+   if(src===NORMAL){
+    outcome=weighted(NORMAL,r);next=outcome.next;
+    initialOutcome={label:outcome.label,dest:'—'};
+   }else{
+    const st=spec.states.find(x=>x.id===src);
+    stateRole=st.role;
+    const mainWait=sampleGeom(r,1/st.denom);
+    const mainTurns=st.spins===0?0:Math.min(mainWait,st.spins);
+    elapsedTurns+=mainTurns;graphPoint();
+    if(st.spins===0||mainWait<=st.spins){
+     outcome=weighted(src,r);next=outcome.next;hitMode='main';sourceCategory=hitCategory(st.role);
+    }else{
+     let residualHit=false;
+     if(spec.residualEnabled){
+      const residualWait=sampleGeom(r,1/resolvedDenom(st,'residual'));
+      residualHit=residualWait<=4;
+      const residualDrawCount=Math.min(residualWait,4);
+      // The source state determines the category, not the destination of the win.
+      if(st.role==='rush'||st.role==='lt'){rushResidualTrials++;rushResidualDraws+=residualDrawCount;}
+      else if(st.role==='timeShort'){shortResidualTrials++;shortResidualDraws+=residualDrawCount;}
+      elapsedTurns+=residualDrawCount;
+      graphPoint();
+     }
+     if(residualHit){outcome=weighted(src,r);next=outcome.next;hitMode='residual';sourceCategory='残保留';}
+     else{
+      if(firstRushPending&&isRush(src)&&!isRush(st.timeout)){cycleThrough=true;firstRushPending=false;}
+      const missTransition=resolveLimitTransition({hit:false,next:st.timeout},limitCounter,src);
+      limitCounter=missTransition.after;
+      if(missTransition.next===END){finished=true;break;}
+      src=missTransition.next;
+      if(roles[src]==='timeShort')passedTimeShort=true;
+      registerFirstRush(src,false);
+      continue;
+     }
+    }
+    if(stateRole==='timeShort')timeShortHit=true;
+    if(firstRushPending&&isRush(src))firstRushPending=false;
+   }
+   const limitHit=resolveLimitTransition({hit:true,next,limitMarked:outcome.limitMarked},limitCounter,src);
+   next=limitHit.next;limitCounter=limitHit.after;
+   if(limitHit.reached){limitReachedEvents++;cycleLimitReached++;}
+   if(hitMode==='initial'){
+    initialOutcome.dest=destCategory(next);
+    if(roles[next]==='timeShort'){passedTimeShort=true;initialTimeShortEntries++;}
+    registerFirstRush(next,true);
+   }else{
+    if(roles[next]==='timeShort')passedTimeShort=true;
+    registerFirstRush(next,false);
+   }
+   total+=outcome.balls*(hitMode==='initial'?1:(1-(spec.rightCostPercent)/100));hits++;
+   graphPoint();
+   if(hitMode==='initial'){
+    graphMark('initial');
+    if(isRush(next))graphMark('entry');
+   }else if(hitMode==='residual'){
+    graphMark('residual');
+    if(isRush(next)&&rushOrigin==='short'&&firstRushPending)graphMark('entry');
+   }else if(stateRole==='timeShort'){
+    graphMark('short');
+    if(isRush(next)&&rushOrigin==='short'&&firstRushPending)graphMark('entry');
+   }else if(isRush(src)){
+    // RUSH中の当たりはすべて折れ線に表す。混雑回避のためマーカーは初当たり・移行・引き戻しに限る。
+   }
+   sourceCounts[sourceCategory]++;
+   if(hitMode==='residual'){
+    cycleRes++;
+    if(stateRole==='timeShort'){cycleShortRes++;shortResidualHits++;}
+    else if(stateRole==='rush'||stateRole==='lt'){cycleRushRes++;rushResidualHits++;}
+   }
+   if(next===END){finished=true;break;}
+   src=next;
+  }
+  if(!finished)cutoff++;
+  if(firstRushPending&&finished)cycleThrough=true;
+  if(cycleThrough)rushThroughs++;
+  allHits+=hits;maxChain=Math.max(maxChain,hits);
+  completedCycles++;
+  simHistoryData.push({number:completedCycles,day:mode==='days'?currentDay:null,cumulativeTurns:cumulativeNormalTurns,normalTurns,hits,
+   initialOutcome:initialOutcome?.label||'—',initialDest:initialOutcome?.dest||'—',limitReached:cycleLimitReached,
+   sourceCounts,residualHits:cycleRes,rushResidualHits:cycleRushRes,shortResidualHits:cycleShortRes,
+   rushEntry:rushOrigin,rushThrough:cycleThrough,total});
+  graphPoint();
+ }
+ // 日別モードの最後で安全上限に達したときは、その時点までを「途中終了日」として保存。
+ if(mode==='days'&&currentDay<=target&&(cumulativeNormalTurns>dayStartNormal||completedCycles>dayStartCycles))finishDay(false);
+ // 終了回転がちょうど当たり回転ならその初当たりと右打ちを含む。
+ graphPoint();
+ const rateCard=(title,count,denom=completedCycles)=>({title,value:denom?round(count/denom*100,2)+'%':'—',fraction:count.toLocaleString('ja-JP')+'/'+denom.toLocaleString('ja-JP')});
+ const cards=[
+  {title:'累計総回転数',value:round(cumulativeNormalTurns,0)+'回'},
+  {title:'総差玉',value:round(total,0)+'玉'},
+  {title:'平均初当たり回転数',value:completedCycles?round(simHistoryData.reduce((acc,item)=>acc+item.normalTurns,0)/completedCycles,1)+'回':'—'},
+  {title:'平均差玉 / 初当たり',value:completedCycles?round(total/completedCycles,0)+'玉':'—'},
+  rateCard('RUSH突入率（直行）',directEntries),
+  rateCard('トータルRUSH突入率',directEntries+shortEntries),
+  rateCard('時短引き戻し率',shortComebacks,initialTimeShortEntries),
+  rateCard('RUSHスルー確率',rushThroughs,directEntries+shortEntries),
+  {...rateCard('RUSH残保留引き戻し率',rushResidualHits,directEntries+shortEntries),detail:`分母：RUSH直行 ${directEntries.toLocaleString('ja-JP')}回 + 時短引き戻し ${shortEntries.toLocaleString('ja-JP')}回／RUSH後の残保留抽選 ${rushResidualTrials.toLocaleString('ja-JP')}回（消化 ${rushResidualDraws.toLocaleString('ja-JP')}個）`},
+  {...rateCard('時短残保留引き戻し率',shortResidualHits,shortResidualTrials),detail:`分母：時短終了後、残保留抽選まで進んだ ${shortResidualTrials.toLocaleString('ja-JP')}回（消化 ${shortResidualDraws.toLocaleString('ja-JP')}個）`},
+  {title:'最大連荘数',value:round(maxChain,0)+'連'},
+  {title:'最大ハマり回転数',value:round(maxHamar,0)+'回'},
+  {title:'平均連荘回数',value:completedCycles?round(allHits/completedCycles,2)+'連':'—'},
+  ...(spec.limitEnabled?[{title:'リミット到達回数',value:round(limitReachedEvents,0)+'回'}]:[])
+ ];
+ $('simMetrics').innerHTML=cards.map(card=>`<div class="metric"><small>${esc(card.title)}</small><strong>${esc(card.value)}</strong>${card.fraction!==undefined?`<div class="fraction">（${esc(card.fraction)}）</div>`:''}${card.detail?`<div class="stat-detail">${esc(card.detail)}</div>`:''}</div>`).join('');
+ $('simResultInfo').textContent=`通常時：${simCost.mode==='fired100'?'賞球反映・発射100玉基準':'従来・実質250玉基準'}（${round(simCost.effectiveSpinsPer250,2)}回／実質250玉、${round(simCost.costPerSpin,2)}玉／通常回転）／`+(hitLimitReached?'初当たり32,768回の上限に達したため途中終了／':workLimitReached?'抽選処理の安全上限に達したため途中終了／':'')+(mode==='days'?`${dailyResults.length.toLocaleString('ja-JP')}日分（完了 ${dailyResults.filter(d=>d.complete).length}日）／通常時 ${cumulativeNormalTurns.toLocaleString('ja-JP')}回転／初当たり ${completedCycles.toLocaleString('ja-JP')}回`:mode==='spins'?`通常時 ${cumulativeNormalTurns.toLocaleString('ja-JP')}回転で終了／初当たり ${completedCycles.toLocaleString('ja-JP')}回／最終未当選区間 ${unhitTail.toLocaleString('ja-JP')}回転（差玉に算入）`:`初当たり ${completedCycles.toLocaleString('ja-JP')}回で終了／通常時 ${cumulativeNormalTurns.toLocaleString('ja-JP')}回転`); 
+ simGraphData={points:graphPoints,marks:graphMarks,totalTurns:elapsedTurns,residualStats:{rushHits:rushResidualHits,shortHits:shortResidualHits,rushTrials:rushResidualTrials,shortTrials:shortResidualTrials,rushDraws:rushResidualDraws,shortDraws:shortResidualDraws}};
+ renderDailyResults();renderDistribution();displaySimGraph();
+ $('simHistory').innerHTML=simHistoryData.slice(0,200).map(x=>`<tr>
+ <td>${x.number.toLocaleString('ja-JP')}${x.day?`<span class="initial-dest">${x.day}日目</span>`:''}</td>
+ <td>${x.cumulativeTurns.toLocaleString('ja-JP')}回</td>
+ <td>${x.normalTurns.toLocaleString('ja-JP')}回</td>
+ <td>${x.hits.toLocaleString('ja-JP')}回<span class="hit-breakdown">${esc(hitBreakdownString(x.sourceCounts))}${x.limitReached?' / リミット到達 '+x.limitReached+'回':''}</span></td>
+ <td>${esc(x.initialOutcome)}<span class="initial-dest">→ ${esc(x.initialDest)}</span></td>
+ <td>${x.residualHits>0?'あり（'+x.residualHits+'回：RUSH '+x.rushResidualHits+' / 時短 '+x.shortResidualHits+'）':'なし'}</td>
+ <td>${round(x.total,0)}玉</td></tr>`).join('');
+ $('simHistoryCount').textContent=`${simHistoryData.length.toLocaleString('ja-JP')}件中${Math.min(200,simHistoryData.length)}件を表示`;
+ $('exportSimHistory').disabled=simHistoryData.length===0;
+ if(cutoff)alert('一部の連チャンが1サイクル5,000回の安全上限に達して打ち切られました: '+cutoff+'件。結果は参考値です。');if(workLimitReached)alert('抽選処理が50万ステップの安全上限に達したため途中終了しました。設定を見直してください。');
+}
+function renderDailyResults(){
+ const visible=currentSimMode()==='days'&&dailyResults.length>0;
+ $('dailyPanel').classList.toggle('hidden',!visible);
+ $('chartDayPicker').classList.toggle('hidden',!visible);
+ if(!visible)return;
+ const completed=dailyResults.filter(d=>d.complete),wins=completed.filter(d=>d.net>0).length;
+ const avg=completed.length?completed.reduce((a,d)=>a+d.net,0)/completed.length:0;
+ $('dailyMetrics').innerHTML=[
+  ['完了日数',completed.length.toLocaleString('ja-JP')+'日'],
+  ['勝率',completed.length?round(wins/completed.length*100,2)+'%':'—'],
+  ['勝ち日数',wins.toLocaleString('ja-JP')+'/'+completed.length.toLocaleString('ja-JP')+'日'],
+  ['平均日別差玉',completed.length?round(avg,0)+'玉':'—']
+ ].map(([k,v])=>`<div class="metric"><small>${k}</small><strong>${v}</strong></div>`).join('');
+ $('dailyTable').innerHTML=dailyResults.map(d=>`<tr><td>${d.day}日目${d.complete?'':'（途中）'}</td><td>${d.normalSpins.toLocaleString('ja-JP')}回</td><td>${d.hits.toLocaleString('ja-JP')}回</td><td style="color:${d.net>0?'#8eebc4':d.net<0?'#fbb3b3':'#cbd5e1'}">${d.net>0?'+':''}${round(d.net,0)}玉</td><td>${d.complete?(d.net>0?'勝ち':d.net<0?'負け':'引き分け'):'途中終了'}</td></tr>`).join('');
+ $('chartDaySelect').innerHTML='<option value="all">全期間（累計差玉）</option>'+dailyResults.map(d=>`<option value="${d.day}">${d.day}日目（${d.complete?'完了':'途中'}）</option>`).join('');
+}
+function renderDistribution(){
+ const bins=[
+  {label:'1〜100回',min:1,max:100},
+  {label:'101〜300回',min:101,max:300},
+  {label:'301〜500回',min:301,max:500},
+  {label:'501〜999回',min:501,max:999},
+  {label:'1,000回以上',min:1000,max:Infinity}
+ ];
+ for(const h of simHistoryData){const b=bins.find(x=>h.normalTurns>=x.min&&h.normalTurns<=x.max);if(b)b.count=(b.count||0)+1;}
+ const n=simHistoryData.length,m=Math.max(1,...bins.map(b=>b.count||0));
+ $('distributionSummary').textContent=`集計対象：初当たり ${n.toLocaleString('ja-JP')}回（未当選で終了した回転は対象外）`;
+ $('distributionChart').innerHTML=bins.map(b=>{
+  const count=b.count||0,pct=n?count/n*100:0,width=count/m*100;
+  return `<div class="distribution-row"><strong>${b.label}</strong><div class="distribution-track" role="img" aria-label="${b.label}：${count}件 ${round(pct,1)}パーセント"><div class="distribution-bar" style="width:${width}%"></div></div><div class="distribution-value">${count.toLocaleString('ja-JP')}回（${round(pct,1)}%）</div></div>`;
+ }).join('');
+}
+function displaySimGraph(){
+ if(!simGraphData)return;
+ const selected=$('chartDaySelect').value;
+ const day=selected==='all'?null:dailyResults.find(d=>String(d.day)===selected);
+ drawHallChart(day?{points:day.points}:simGraphData);
+ if(day)$('chartSummary').textContent=`${day.day}日目：通常 ${day.normalSpins.toLocaleString('ja-JP')}回転／差玉 ${round(day.net,0)}玉`;
+}
+// Preserve the chronological first, minimum, maximum and last values within each bucket.
+// Equal-x samples are deliberately retained: they represent the vertical gain from a jackpot.
+function keepExtrema(points,limit=6000){
+ if(points.length<=limit)return points;
+ const out=[points[0]];
+ const groupSize=Math.max(2,Math.ceil((points.length-2)/Math.max(1,Math.floor((limit-2)/4))));
+ for(let i=1;i<points.length-1;i+=groupSize){
+  const end=Math.min(points.length-1,i+groupSize);
+  let low=i,high=i;
+  for(let j=i+1;j<end;j++){
+   if(points[j][1]<points[low][1])low=j;
+   if(points[j][1]>points[high][1])high=j;
+  }
+  for(const j of [...new Set([i,low,high,end-1])].sort((a,b)=>a-b))out.push(points[j]);
+ }
+ out.push(points[points.length-1]);return out;
+}
+// Collapse graph data by horizontal pixels rather than by number of events.
+// This keeps peaks and troughs that would vanish in a naive every-N-th-point sampler.
+function graphPixelSamples(raw,maxX,pw){
+ if(raw.length<Math.max(2400,pw*4))return raw;
+ const result=[raw[0]];
+ const bucketWidth=Math.max(1,Math.ceil(maxX/Math.max(1,pw)));
+ let start=1;
+ while(start<raw.length-1){
+  const bucket=Math.floor(raw[start][0]/bucketWidth);
+  let end=start+1,min=start,max=start;
+  while(end<raw.length-1 && Math.floor(raw[end][0]/bucketWidth)===bucket){
+   if(raw[end][1]<raw[min][1])min=end;
+   if(raw[end][1]>raw[max][1])max=end;
+   end++;
+  }
+  for(const j of [...new Set([start,min,max,end-1])].sort((a,b)=>a-b))result.push(raw[j]);
+  start=end;
+ }
+ result.push(raw[raw.length-1]);
+ return result;
+}
+function chartNiceStep(value){
+ const magnitude=Math.pow(10,Math.floor(Math.log10(Math.max(1e-9,value))));
+ const ratio=value/magnitude;
+ return (ratio<=1?1:ratio<=2?2:ratio<=2.5?2.5:ratio<=5?5:10)*magnitude;
+}
+function chartTickText(v,compact=false){
+ if(compact&&Math.abs(v)>=10000)return new Intl.NumberFormat('ja-JP',{notation:'compact',maximumFractionDigits:1}).format(v);
+ return Math.round(v).toLocaleString('ja-JP');
+}
+let simGraphData=null;
+function drawHallChart(data){
+ const canvas=$('simChart'),ctx=canvas.getContext('2d');
+ const actualWidth=canvas.getBoundingClientRect().width;
+ const cssWidth=Math.max(250,Math.round(actualWidth||950)),cssHeight=Math.round(canvas.getBoundingClientRect().height||380);
+ const dpr=Math.min(window.devicePixelRatio||1,2.5);
+ canvas.width=Math.round(cssWidth*dpr);canvas.height=Math.round(cssHeight*dpr);
+ ctx.setTransform(dpr,0,0,dpr,0,0);
+ const w=cssWidth,h=cssHeight,small=w<570,L=small?54:77,R=small?30:22,T=32,B=53;
+ const pw=w-L-R,ph=h-T-B;
+ const raw=data?.points?.length?data.points:[[0,0]];
+ let low=0,high=0;
+ for(const [,y] of raw){if(y<low)low=y;if(y>high)high=y;}
+ const range=Math.max(1000,high-low),pad=range*.09;
+ const yStep=chartNiceStep((range+2*pad)/(small?4:5));
+ const lo=Math.floor((low-pad)/yStep)*yStep;
+ const hi=Math.ceil((high+pad)/yStep)*yStep;
+ const maxX=Math.max(1,raw[raw.length-1][0]);
+ const points=graphPixelSamples(raw,maxX,Math.round(pw));
+ const xp=x=>L+pw*x/maxX,yp=y=>T+ph*(hi-y)/(hi-lo);
+ ctx.clearRect(0,0,w,h);
+ const bg=ctx.createLinearGradient(0,0,0,h);bg.addColorStop(0,'#132b41');bg.addColorStop(1,'#081521');ctx.fillStyle=bg;ctx.fillRect(0,0,w,h);
+ ctx.font=(small?'10':'11')+'px system-ui, sans-serif';ctx.textBaseline='middle';
+ for(let v=lo,k=0;v<=hi+yStep*.01&&k<30;v+=yStep,k++){
+  const y=yp(v);ctx.beginPath();ctx.moveTo(L,y+.5);ctx.lineTo(w-R,y+.5);
+  ctx.strokeStyle=Math.abs(v)<yStep*.001?'#aa9061':'#253d53';ctx.lineWidth=Math.abs(v)<yStep*.001?1.35:.8;ctx.stroke();
+  ctx.textAlign='right';ctx.fillStyle='#a9c1d9';ctx.fillText(chartTickText(v,small),L-8,y);
+ }
+ for(let i=0;i<= (small?4:5);i++){
+  const totalTicks=small?4:5,x=L+pw*i/totalTicks;
+  ctx.beginPath();ctx.moveTo(x+.5,T);ctx.lineTo(x+.5,h-B);ctx.lineWidth=.7;ctx.strokeStyle='#1d3248';ctx.stroke();
+  ctx.textAlign='center';ctx.fillStyle='#9cb8d0';ctx.fillText(chartTickText(maxX*i/totalTicks,small),x,h-B+15);
+ }
+ // The baseline and area do not introduce scatter markers; the polyline is continuous.
+ ctx.save();ctx.beginPath();ctx.rect(L,T,pw,ph);ctx.clip();
+ ctx.beginPath();points.forEach(([x,y],i)=>{if(i)ctx.lineTo(xp(x),yp(y));else ctx.moveTo(xp(x),yp(y));});
+ ctx.strokeStyle='#80d7fa';ctx.lineWidth=small?1.6:1.8;ctx.lineJoin='round';ctx.lineCap='round';ctx.stroke();
+ ctx.restore();
+ ctx.textAlign='left';ctx.textBaseline='alphabetic';ctx.fillStyle='#c8dbee';ctx.font=(small?'11':'12')+'px system-ui, sans-serif';ctx.fillText('差玉',L,T-10);
+ ctx.textAlign='right';ctx.fillText('総消化回転数',w-R,h-6);
+ $('chartSummary').textContent='総消化 '+Math.round(raw[raw.length-1][0]).toLocaleString('ja-JP')+'回転 / 終了差玉 '+Math.round(raw[raw.length-1][1]).toLocaleString('ja-JP')+'玉';
+ const hover=$('chartHoverInfo');
+ canvas.onmousemove=event=>{
+  const rect=canvas.getBoundingClientRect();
+  const goal=Math.max(0,Math.min(maxX,((event.clientX-rect.left)/rect.width*w-L)/pw*maxX));
+  let a=0,b=raw.length;
+  while(a<b){const mid=(a+b)>>1;if(raw[mid][0]<=goal)a=mid+1;else b=mid;}
+  const right=raw[Math.min(raw.length-1,a)],left=raw[Math.max(0,a-1)];
+  // Linear interpolation makes long normal-play downslopes smooth in the tooltip too.
+  const ratio=right[0]>left[0]?Math.max(0,Math.min(1,(goal-left[0])/(right[0]-left[0]))):0;
+  const y=left[1]+(right[1]-left[1])*ratio;
+  hover.textContent='総消化回転数 '+Math.round(goal).toLocaleString('ja-JP')+'回 / 差玉 '+Math.round(y).toLocaleString('ja-JP')+'玉';
+ };
+ canvas.onmouseleave=()=>{hover.textContent='グラフ上にカーソルを合わせると回転数と差玉が表示されます。'};
+}
+window.addEventListener('resize',()=>{if(simGraphData&&!$('simulation').classList.contains('hidden'))displaySimGraph()});
+function download(name,contents,type){let url=URL.createObjectURL(new Blob([contents],{type}));let a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),2000)}
+
+// α22 additional inverse calculators. These are pure targets and never alter the spec model.
+function reverseFmt(x, digits=2){return x.toLocaleString('ja-JP',{minimumFractionDigits:digits,maximumFractionDigits:digits})}
+function calcRevBorder(){
+ const rawDenom=$('revBorderNormalDenom').value.trim(),rawGoal=$('revBorderTarget').value.trim();
+ const denom=Number(rawDenom), goal=Number(rawGoal), out=$('revBorderResult');
+ if(rawDenom===''||rawGoal===''||!Number.isFinite(denom)||!Number.isFinite(goal)||denom<1||goal<=0){
+  out.classList.add('reverse-error');out.textContent='初当たり確率の分母は1以上、目標ボーダーは0より大きい数値で入力してください。';return;
+ }
+ const result=denom*250/goal;
+ if(!Number.isFinite(result)||result<=0){out.classList.add('reverse-error');out.textContent='計算できる範囲の数値を入力してください。';return;}
+ out.classList.remove('reverse-error');
+ out.innerHTML=`<span class="reverse-key">必要な初当たり期待正味出玉</span><strong>${reverseFmt(result)} 玉</strong><span class="reverse-meta">計算：${reverseFmt(denom,denom%1===0?0:1)} × 250 ÷ ${reverseFmt(goal)}（4円等価・250玉あたり）</span>`;
+}
+function calcRevProbability(){
+ const rawTurns=$('revProbabilityTurns').value.trim(),rawTarget=$('revProbabilityTarget').value.trim();
+ const n=Number(rawTurns),pct=Number(rawTarget),out=$('revProbabilityResult');
+ if(rawTurns===''||rawTarget===''||!Number.isSafeInteger(n)||n<1||n>10000000||!Number.isFinite(pct)||pct<0||pct>100){
+  out.classList.add('reverse-error');out.textContent='ST回数は1〜10,000,000の整数、目標継続率は0〜100%で入力してください。';return;
+ }
+ out.classList.remove('reverse-error');
+ if(pct===0){
+  out.innerHTML='<span class="reverse-key">必要な当選確率</span><strong>0%（1/∞）</strong><span class="reverse-meta">継続率0%には当選確率0%が必要です。有限の確率分母Xでは0%を厳密には再現できません。</span>';return;
+ }
+ const singleChance=-Math.expm1(Math.log1p(-pct/100)/n);
+ const denom=1/singleChance;
+ if(!Number.isFinite(denom)||denom<1){out.classList.add('reverse-error');out.textContent='この条件では計算できません。入力値をご確認ください。';return;}
+ const digits=denom>=1000000?0:denom>=10000?1:2;
+ const actual=100*(-Math.expm1(n*Math.log1p(-singleChance)));
+ out.innerHTML=`<span class="reverse-key">必要なST中の大当たり確率</span><strong>約 1/${reverseFmt(denom,digits)}</strong><span class="reverse-meta">1回転あたり ${reverseFmt(singleChance*100,Math.abs(singleChance*100)<.01?6:4)}% ／ 計算上の継続率 ${reverseFmt(actual,4)}%<br>※ 表示した1/Xは丸めた値です。目標継続率は丸め前の確率で計算しています。</span>`;
+}
+
+document.querySelectorAll('[name="simCostMode"]').forEach(el=>el.addEventListener('change',e=>{spec.simCostMode=e.target.value;syncSimCostInputs();if(spec.simBorderAuto)syncTheoryBorderToSimulation();else showBorderCopyStatus('手動入力モードです。自動連動をONにすると、この方式へボーダーを反映します。');clearSimulationResults();}));
+for(const [id,key] of [['simStartsPer100','simStartsPer100'],['simHesoPrize','hesoPrize'],['simOtherPrize','otherPrize'],['simOtherEntryRate','otherEntryRate']]){
+ $(id).addEventListener('input',e=>{spec[key]=e.target.value.trim()===''?NaN:Number(e.target.value);if(key==='simStartsPer100'){stopSimBorderAuto();}else{$(key).value=e.target.value;updateAnalysis();}renderSimCostPreview();clearSimulationResults();});
+}
+$('simPrizeInputs').addEventListener('click',e=>{const btn=e.target.closest('[data-sim-heso]');if(!btn)return;spec.hesoPrize=Number(btn.dataset.simHeso);$('hesoPrize').value=String(spec.hesoPrize);syncSimCostInputs();updateAnalysis();clearSimulationResults();});
+$('applyTheoryBorderToSim').addEventListener('click',copyTheoryBorderToSimulation);
+$('simBorderAuto').addEventListener('change',e=>{spec.simBorderAuto=e.target.checked;if(spec.simBorderAuto)updateAnalysis();else showBorderCopyStatus('自動連動OFF：現在の回転率を維持します。自由に手入力できます。');});
+$('tabs').addEventListener('click',e=>{let b=e.target.closest('button[data-tab]');if(!b)return;document.querySelectorAll('#tabs button').forEach(x=>x.classList.toggle('active',x===b));['design','analysis','simulation','reverse','compare','guide'].forEach(id=>$(id).classList.toggle('hidden',id!==b.dataset.tab));if(b.dataset.tab==='analysis')updateAnalysis();if(b.dataset.tab==='reverse')renderBorderPrototype();if(b.dataset.tab==='simulation'){updateBorderCopyInfo();if(simGraphData)displaySimGraph()}});$('limitEnabled').addEventListener('change',e=>{spec.limitEnabled=e.target.checked;renderDesign();clearSimulationResults();updateAnalysis()});$('limitMax').addEventListener('change',e=>{spec.limitMax=Number(e.target.value);clearSimulationResults();updateAnalysis()});$('limitCountMode').addEventListener('change',e=>{spec.limitCountMode=e.target.value;renderDesign();clearSimulationResults();updateAnalysis()});$('limitExit').addEventListener('change',e=>{spec.limitExit=e.target.value;clearSimulationResults();syncLimitControls();updateAnalysis()});$('limitResetMode').addEventListener('change',e=>{spec.limitResetMode=e.target.value;clearSimulationResults();syncLimitControls();updateAnalysis()});$('name').addEventListener('input',e=>spec.name=e.target.value);$('normalDenom').addEventListener('input',e=>{spec.normalDenom=val(e.target.value);updateAnalysis();});$('spinsPer250').addEventListener('input',e=>{spec.spinsPer250=e.target.value.trim()===''?NaN:val(e.target.value);stopSimBorderAuto();clearSimulationResults();syncSimCostInputs();updateAnalysis()});for(const id of ['residualEnabledAnalysis','residualEnabledSimulation'])$(id).addEventListener('change',e=>changeResidualEnabled(e.target.checked));for(const el of document.querySelectorAll('[name="theoryBasis"]'))el.addEventListener('change',e=>{spec.theoryNet=e.target.value==='net';updateAnalysis()});function updateTheoryLoss(value){if(value===''||!Number.isFinite(Number(value))||Number(value)<0||Number(value)>100){$('theoryLossInfo').textContent='玉減り率は0〜100%で入力してください。';return;}const next=Number(value);if(spec.rightCostPercent!==next){spec.rightCostPercent=next;clearSimulationResults();}updateAnalysis();}for(const id of ['rightCostPercentAnalysis','rightCostSliderAnalysis'])$(id).addEventListener('input',e=>updateTheoryLoss(e.target.value));for(const k of ['hesoPrize','otherPrize','otherEntryRate','denchuPrize'])$(k).addEventListener('input',e=>{spec[k]=val(e.target.value);if(k!=='denchuPrize')clearSimulationResults();syncSimCostInputs();updateAnalysis()});
+for(const [id,key] of [['borderHesoPrize','hesoPrize'],['borderOtherPrize','otherPrize'],['borderOtherRate','otherEntryRate']])$(id).addEventListener('input',e=>{spec[key]=val(e.target.value);$(key).value=e.target.value;clearSimulationResults();syncSimCostInputs();updateAnalysis()});$('borderStartPer100').addEventListener('input',renderBorderPrototype);$('prize').addEventListener('input',e=>{spec.prize=val(e.target.value);refreshNetBalls();renderDesign();updateAnalysis()});$('design').addEventListener('change',e=>{const el=e.target;if(!el.dataset.kind)return;const obj=el.dataset.kind==='state'?spec.states[el.dataset.i]:spec.outcomes[el.dataset.i];obj[el.dataset.key]=el.dataset.key==='limitMarked'?el.checked:['denom','spins','weight','rounds','count','residualCount','residualDenom','hesoDraws','hesoDenom'].includes(el.dataset.key)?Number(el.value):el.value;if(el.dataset.kind==='outcome'&&['rounds','count'].includes(el.dataset.key)){refreshNetBalls();renderDesign()}if(['name','source','residualMode','hesoMode'].includes(el.dataset.key))renderDesign();else if(el.dataset.kind==='state'&&['spins','role'].includes(el.dataset.key))syncLimitControls();updateAnalysis()});$('design').addEventListener('input',e=>{let el=e.target;if(!el.dataset.kind)return;const obj=el.dataset.kind==='state'?spec.states[el.dataset.i]:spec.outcomes[el.dataset.i];obj[el.dataset.key]=el.dataset.key==='limitMarked'?el.checked:['denom','spins','weight','rounds','count','residualCount','residualDenom','hesoDraws','hesoDenom'].includes(el.dataset.key)?Number(el.value):el.value;if(el.dataset.kind==='outcome'&&['rounds','count'].includes(el.dataset.key))refreshNetBalls()});$('design').addEventListener('click',e=>{let b=e.target.closest('button');if(!b)return;if(b.dataset.delState!==undefined){let i=Number(b.dataset.delState),id=spec.states[i].id;spec.states.splice(i,1);spec.outcomes=spec.outcomes.filter(x=>x.source!==id).map(x=>({...x,next:x.next===id?END:x.next,hesoNext:x.hesoNext===id?'':x.hesoNext}));spec.states.forEach(s=>{if(s.timeout===id)s.timeout=END});if(spec.limitExit===id)spec.limitExit=END;renderDesign()}if(b.dataset.delOutcome!==undefined){spec.outcomes.splice(Number(b.dataset.delOutcome),1);renderDesign();updateAnalysis()}});$('addState').onclick=()=>{if(spec.states.length>=15)return alert('状態は15個まで');let i=1;while(spec.states.some(s=>s.id==='state'+i))i++;spec.states.push({id:'state'+i,name:'新しい状態'+i,role:'rush',denom:99.9,spins:100,timeout:END,residualCount:4,residualMode:'normal',residualDenom:spec.normalDenom,hesoDraws:0,hesoMode:'state',hesoDenom:99.9});renderDesign();updateAnalysis()};$('addOutcome').onclick=()=>{spec.outcomes.push({source:NORMAL,label:'新規振り分け',weight:0,rounds:10,count:10,balls:Math.max(0,spec.prize-1)*100,next:END,hesoNext:'',limitMarked:true});renderDesign();updateAnalysis()};$('apply').onclick=()=>{if(updateAnalysis())$('tabs').querySelector('[data-tab="analysis"]').click()};$('calcReverse').onclick=()=>{let d=Number($('revDenom').value),t=Number($('revTarget').value),out=$('reverseResult');if($('revDenom').value.trim()===''||$('revTarget').value.trim()===''||!(d>1&&t>=0&&t<100)){out.classList.add('reverse-error');out.textContent='確率分母は1より大きく、目標は0%以上100%未満で指定してください。';return;}let n=Math.ceil(Math.log1p(-t/100)/Math.log1p(-1/d)-1e-12);if(!Number.isFinite(n)||n<0||n>10000000){out.classList.add('reverse-error');out.textContent='条件に必要なST回数が計算可能な上限（1,000万回）を超えています。';return;}out.classList.remove('reverse-error');let actual=100*(-Math.expm1(n*Math.log1p(-1/d)));out.innerHTML=`<span class="reverse-key">必要ST回数</span><strong>${n.toLocaleString('ja-JP')} 回</strong><span class="reverse-meta">実現継続率 ${reverseFmt(actual,3)}% ／ 端数は切り上げ</span>`;};
+$('calcRevBorder').onclick=calcRevBorder;$('calcRevProbability').onclick=calcRevProbability;
+$('revUseCurrentSpec').onclick=()=>{$('revBorderNormalDenom').value=String(spec.normalDenom);calcRevBorder();};
+for(const id of ['revBorderNormalDenom','revBorderTarget'])$(id).addEventListener('input',calcRevBorder);
+for(const id of ['revProbabilityTurns','revProbabilityTarget'])$(id).addEventListener('input',calcRevProbability);
+for(const id of ['revDenom','revTarget'])$(id).addEventListener('input',()=>$('calcReverse').click());$('randomSeed').onclick=()=>{const array=new Uint32Array(1);if(window.crypto?.getRandomValues){window.crypto.getRandomValues(array)}else{array[0]=Math.floor(Math.random()*4294967296)}let newSeed=array[0];if(newSeed===Number($('seed').value))newSeed=(newSeed+1)>>>0;$('seed').value=String(newSeed)};document.querySelectorAll('[name="simMode"]').forEach(el=>el.addEventListener('change',e=>changeSimMode(e.target.value)));$('simTarget').addEventListener('change',e=>{const v=Number(e.target.value);if(Number.isSafeInteger(v)&&v>0){if(currentSimMode()==='cycles')spec.simCycles=v;else if(currentSimMode()==='spins')spec.simNormalSpins=v;else spec.simDays=v;}clearSimulationResults()});$('simPresets').addEventListener('click',e=>{const btn=e.target.closest('[data-preset]');if(!btn)return;const v=Number(btn.dataset.preset);$('simTarget').value=String(v);if(currentSimMode()==='cycles')spec.simCycles=v;else if(currentSimMode()==='spins')spec.simNormalSpins=v;else spec.simDays=v;clearSimulationResults()});$('simDaySpins').addEventListener('change',e=>{spec.simDaySpins=Number(e.target.value);clearSimulationResults()});$('chartDaySelect').addEventListener('change',displaySimGraph);$('exportDailyCsv').onclick=()=>{if(!dailyResults.length)return;const rows=[['日','通常回転数','初当たり回数','差玉','勝敗','完了'],...dailyResults.map(d=>[d.day,d.normalSpins,d.hits,Math.round(d.net),d.net>0?'勝ち':d.net<0?'負け':'引き分け',d.complete?'完了':'途中'])];download('pachinko-daily-results.csv','\uFEFF'+rows.map(row=>row.map(v=>'"'+String(v).replaceAll('"','""')+'"').join(',')).join('\r\n'),'text/csv;charset=utf-8')};$('runSim').onclick=simulate;$('exportSimHistory').onclick=()=>{
+ if(!simHistoryData.length)return;
+ const isDay=currentSimMode()==='days';
+ const rows=[['初当たり番号',...(isDay?['日']:[]),'累計回転数','初当たり回転数','当たり回数（連荘含む）','初当たりの振り分け','残保留引き戻し','差玉'],
+ ...simHistoryData.map(x=>[x.number,...(isDay?[x.day]:[]),x.cumulativeTurns,x.normalTurns,x.hits+'回（'+hitBreakdownString(x.sourceCounts)+'）',
+ x.initialOutcome+' → '+x.initialDest,x.residualHits?('あり（'+x.residualHits+'回：RUSH '+x.rushResidualHits+' / 時短 '+x.shortResidualHits+'）'):'なし',Math.round(x.total)])];
+ const csvCell=v=>'"'+String(v).replaceAll('"','""')+'"';
+ download('pachinko-first-hit-history.csv','\uFEFF'+rows.map(row=>row.map(csvCell).join(',')).join('\r\n'),'text/csv;charset=utf-8')
+};$('reset').onclick=()=>{if(confirm('現在の入力値をサンプルに戻しますか？')){spec=normalizeSpec(sample());renderDesign();updateAnalysis()}};$('export').onclick=()=>download('pachinko-spec.json',JSON.stringify(spec,null,2),'application/json');$('importBtn').onclick=()=>$('import').click();$('import').onchange=async e=>{let file=e.target.files?.[0];if(!file)return;try{let parsed=JSON.parse(await file.text());if(!Array.isArray(parsed.states)||!Array.isArray(parsed.outcomes))throw Error('JSON形式が違います');normalizeSpec(parsed);let old=spec;spec=parsed;if(!updateAnalysis()){spec=old;renderDesign();throw Error('検証に失敗しました')}renderDesign();alert('読み込みました')}catch(ex){alert('読み込み失敗: '+ex.message)}e.target.value=''};
+function compRender(){$('compareTable').innerHTML=comparison.map((x,i)=>`<tr><td>${esc(x.name)}</td><td>${round(x.continuation*100)}%</td><td>${round(x.averageHits)}</td><td>${round(x.averageBalls,0)}玉</td><td>${round(x.ltChance*100)}%</td><td><button class="secondary" data-load="${i}">再編集</button></td></tr>`).join('')};$('saveCompare').onclick=()=>{if(!updateAnalysis())return;comparison.push({...structuredClone(lastAnalysis),name:spec.name,spec:structuredClone(spec)});compRender()};$('clearCompare').onclick=()=>{comparison=[];compRender()};$('compareTable').onclick=e=>{let btn=e.target.closest('[data-load]');if(!btn)return;spec=normalizeSpec(structuredClone(comparison[Number(btn.dataset.load)].spec));renderDesign();updateAnalysis();$('tabs').querySelector('[data-tab="design"]').click()};$('exportCsv').onclick=()=>{let rows=[['名称','初当たり後の再当選率%','平均当たり回数','平均正味獲得出玉','LT到達率%'],...comparison.map(x=>[x.name,x.continuation*100,x.averageHits,x.averageBalls,x.ltChance*100])];download('spec-comparison.csv','\uFEFF'+rows.map(r=>r.map(v=>'"'+String(v).replaceAll('"','""')+'"').join(',')).join('\r\n'),'text/csv;charset=utf-8')};renderDesign();updateAnalysis();$('revBorderNormalDenom').value=String(spec.normalDenom);$('calcReverse').click();calcRevBorder();calcRevProbability();
+
+// α22 Mobile: presentation helpers; no changes to the draw/expected value engine.
+(function initMobile(){
+  const buttons={'mobileExport':'export','mobileImport':'importBtn','mobileReset':'reset'};
+  Object.entries(buttons).forEach(([mobile,existing])=>{
+    document.getElementById(mobile)?.addEventListener('click',()=>{
+      document.getElementById(existing)?.click();
+      if(mobile!=='mobileImport')document.getElementById('mobileTools').open=false;
+    });
+  });
+  const tabs=document.getElementById('tabs');
+  tabs.addEventListener('click',e=>{
+    if(!e.target.closest('[data-tab]'))return;
+    if(window.matchMedia('(max-width:800px)').matches){
+      document.activeElement?.blur?.();
+      window.scrollTo({top:0,behavior:'instant'});
+    }
+  });
+  const tables=['statesTable','outcomesTable','compareTable'];
+  const updateLabels=tbody=>{
+    const table=tbody.closest('table');
+    if(!table)return;
+    const headings=Array.from(table.querySelectorAll('thead th')).map(th=>th.textContent.trim());
+    table.closest('.scroll')?.classList.add('mobile-card-table');
+    tbody.querySelectorAll('tr').forEach(row=>{
+      [...row.children].forEach((cell,index)=>{cell.setAttribute('data-label',headings[index]||'操作')});
+    });
+  };
+  tables.forEach(id=>{
+    const tbody=document.getElementById(id);if(!tbody)return;
+    updateLabels(tbody);
+    new MutationObserver(()=>updateLabels(tbody)).observe(tbody,{childList:true});
+  });
+  // Desktop hover is retained, and a finger press can show the same graph coordinates.
+  const mobileViewport=window.matchMedia('(max-width:800px)');
+  const history=document.getElementById('simHistoryWrap');
+  if(history){
+    const syncHistory=()=>{history.open=!mobileViewport.matches};
+    syncHistory();
+    mobileViewport.addEventListener?.('change',syncHistory);
+  }
+  const canvas=document.getElementById('simChart');
+  for(const kind of ['touchstart','touchmove']){
+    canvas.addEventListener(kind,event=>{
+      const touch=event.touches?.[0];
+      if(touch&&typeof canvas.onmousemove==='function')canvas.onmousemove({clientX:touch.clientX,clientY:touch.clientY});
+    },{passive:true});
+  }
+})();
+
+</script>
+<script>
+(function iosBootstrap(){
+  const guard=document.getElementById('bootGuard');
+  const name=document.getElementById('name');
+  const tabs=document.getElementById('tabs');
+  if(!name||!name.value||!document.getElementById('normalDenom')?.value||!tabs){
+    if(guard){guard.textContent='サンプルデータを読み込めませんでした。Safariで公開URLを開き、再読み込みしてください。';}
+    return;
+  }
+  if(guard)guard.style.display='none';
+  const savedKey='pachinko-spec-lab-ios-alpha23_5-user-spec';
+  const save=()=>{
+    try{localStorage.setItem(savedKey,JSON.stringify(spec));alert('現在のスペックを端末に保存しました。');}
+    catch(e){alert('端末に保存できませんでした。代わりにJSON保存を利用してください。');}
+  };
+  const load=()=>{
+    try{
+      const raw=localStorage.getItem(savedKey);
+      if(!raw){alert('この端末に保存したスペックはまだありません。');return;}
+      const parsed=JSON.parse(raw);
+      if(!parsed||!Array.isArray(parsed.states)||!Array.isArray(parsed.outcomes))throw Error('形式が異なります');
+      if(!confirm('保存したスペックを読み込みますか？現在のデータを置き換えます。'))return;
+      const previous=spec;
+      spec=normalizeSpec(parsed);
+      renderDesign();clearSimulationResults();
+      if(!updateAnalysis()){spec=previous;renderDesign();updateAnalysis();throw Error('入力値に問題があります');}
+      tabs.querySelector('[data-tab="design"]').click();
+      document.getElementById('mobileTools').open=false;
+      alert('端末からスペックを復元しました。');
+    }catch(e){alert('保存データを復元できませんでした。JSON読込をお試しください。');}
+  };
+  for(const id of ['saveLocal','mobileSaveLocal'])document.getElementById(id)?.addEventListener('click',save);
+  for(const id of ['loadLocal','mobileLoadLocal'])document.getElementById(id)?.addEventListener('click',load);
+  const status=document.getElementById('iosStatus');
+  if(status){
+    if(window.matchMedia('(display-mode:standalone)').matches||navigator.standalone===true)status.textContent='ホーム画面アプリとして起動中';
+    else if(location.protocol==='file:')status.textContent='ファイルプレビューでは一部動作しない場合があります。HTTPSで公開したURLをSafariで開いてください。';
+    else status.textContent='Safariの共有メニューから「ホーム画面に追加」でアプリ化できます。';
+  }
+  if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost')){
+    navigator.serviceWorker.register('./sw.js').catch(function(e){console.warn('オフライン用ファイルの登録に失敗しました',e);});
+  }
+  tabs.querySelectorAll('button[data-tab]').forEach(b=>b.setAttribute('aria-selected',String(b.classList.contains('active'))));
+  tabs.addEventListener('click',e=>{
+    const chosen=e.target.closest('button[data-tab]');if(!chosen)return;
+    tabs.querySelectorAll('button[data-tab]').forEach(b=>b.setAttribute('aria-selected',String(b===chosen)));
+  });
+})();
+</script></body></html>

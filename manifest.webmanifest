@@ -1,0 +1,26 @@
+{
+  "name": "パチンコスペックラボ α23.5",
+  "short_name": "スペックラボ",
+  "description": "スペック設計・理論値9項目・賞球反映シミュレーション・逆算",
+  "lang": "ja",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0d1422",
+  "theme_color": "#0d1422",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
